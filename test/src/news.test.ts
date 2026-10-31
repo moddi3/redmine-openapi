@@ -1,4 +1,5 @@
 import { before, after, describe, test } from "node:test";
+import assert from "node:assert/strict";
 
 import { client, assertStatus, uploadFile } from "./helpers.js";
 
@@ -79,6 +80,35 @@ describe("News", () => {
       },
     });
     assertStatus(200, response);
+    assert.deepEqual(response.data!.news.comments, []);
+  });
+
+  test("GET /news/{news_id}.json includes a non-empty comments response", async () => {
+    const project = await client.GET("/projects/{project_id}.{format}", {
+      params: { path: { format: "json", project_id: "news-comment-fixture" } },
+    });
+    assertStatus(200, project);
+    const news = await client.GET("/projects/{project_id}/news.{format}", {
+      params: { path: { format: "json", project_id: project.data!.project.id } },
+    });
+    assertStatus(200, news);
+    const fixture = news.data!.news.find(
+      (item) => item.title === "News with a comment"
+    );
+    assert(fixture, "Expected the seeded news comment fixture");
+
+    const response = await client.GET("/news/{news_id}.{format}", {
+      params: {
+        path: { format: "json", news_id: fixture.id },
+        query: { include: ["comments"] },
+      },
+    });
+    assertStatus(200, response);
+    const comments = response.data!.news.comments;
+    assert(
+      comments && comments.length > 0,
+      "Expected a non-empty comments response"
+    );
   });
 
   test("PUT /news/{news_id}.json", async () => {

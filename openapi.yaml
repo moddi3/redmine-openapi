@@ -8,7 +8,7 @@ info:
   license:
     name: MIT
     url: https://github.com/d-yoshi/redmine-openapi/blob/main/LICENSE
-  version: 6.1.3-r1
+  version: 6.1.3-r2
 servers:
   - url: /
 security:
@@ -18,91 +18,91 @@ security:
   - OAuth2: []
 tags:
   - name: Issues
-    description: 'Status: Stable, Availability: 1.0'
+    description: "Status: Stable, Availability: 1.0"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Issues
   - name: Projects
-    description: 'Status: Stable, Availability: 1.0'
+    description: "Status: Stable, Availability: 1.0"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Projects
   - name: Project Memberships
-    description: 'Status: Alpha, Availability: 1.4'
+    description: "Status: Alpha, Availability: 1.4"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Memberships
   - name: Users
-    description: 'Status: Stable, Availability: 1.1'
+    description: "Status: Stable, Availability: 1.1"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Users
   - name: Time Entries
-    description: 'Status: Stable, Availability: 1.1'
+    description: "Status: Stable, Availability: 1.1"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_TimeEntries
   - name: News
-    description: 'Status: Stable, Availability: 1.1'
+    description: "Status: Stable, Availability: 1.1"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_News
   - name: Issue Relations
-    description: 'Status: Alpha, Availability: 1.3'
+    description: "Status: Alpha, Availability: 1.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_IssueRelations
   - name: Versions
-    description: 'Status: Alpha, Availability: 1.3'
+    description: "Status: Alpha, Availability: 1.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Versions
   - name: Wiki Pages
-    description: 'Status: Alpha, Availability: 2.2'
+    description: "Status: Alpha, Availability: 2.2"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_WikiPages
   - name: Queries
-    description: 'Status: Alpha, Availability: 1.3'
+    description: "Status: Alpha, Availability: 1.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Queries
   - name: Attachments
-    description: 'Status: Beta, Availability: 1.3'
+    description: "Status: Beta, Availability: 1.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Attachments
   - name: Issue Statuses
-    description: 'Status: Alpha, Availability: 1.3'
+    description: "Status: Alpha, Availability: 1.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_IssueStatuses
   - name: Trackers
-    description: 'Status: Alpha, Availability: 1.3'
+    description: "Status: Alpha, Availability: 1.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Trackers
   - name: Enumerations
-    description: 'Status: Alpha, Availability: 2.2'
+    description: "Status: Alpha, Availability: 2.2"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Enumerations
   - name: Issue Categories
-    description: 'Status: Alpha, Availability: 1.3'
+    description: "Status: Alpha, Availability: 1.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_IssueCategories
   - name: Roles
-    description: 'Status: Alpha, Availability: 1.4'
+    description: "Status: Alpha, Availability: 1.4"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Roles
   - name: Groups
-    description: 'Status: Alpha, Availability: 2.1'
+    description: "Status: Alpha, Availability: 2.1"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Groups
   - name: Custom Fields
-    description: 'Status: Alpha, Availability: 2.4'
+    description: "Status: Alpha, Availability: 2.4"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_CustomFields
   - name: Search
-    description: 'Status: Alpha, Availability: 3.3'
+    description: "Status: Alpha, Availability: 3.3"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Search
   - name: Files
-    description: 'Status: Alpha, Availability: 3.4'
+    description: "Status: Alpha, Availability: 3.4"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Files
   - name: My Account
-    description: 'Status: Alpha, Availability: 4.1'
+    description: "Status: Alpha, Availability: 4.1"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_MyAccount
   - name: Journals
-    description: 'Status: Alpha, Availability: 5.0'
+    description: "Status: Alpha, Availability: 5.0"
     externalDocs:
       url: https://www.redmine.org/projects/redmine/wiki/Rest_Journals
   - name: Repositories
@@ -120,12 +120,12 @@ paths:
       summary: List issues
       operationId: getIssues
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
         - name: sort
           in: query
           description: |-
@@ -591,8 +591,8 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -603,27 +603,27 @@ paths:
                   issues:
                     type: array
                     items:
-                      $ref: '#/components/schemas/issue.summary'
+                      $ref: "#/components/schemas/issue.summary"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
           description: Returned when the query_id parameter refers to a nonexistent query.
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
           description: Returned when a filter parameter has an invalid value.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     post:
       tags:
         - Issues
@@ -632,8 +632,8 @@ paths:
       summary: Create issue
       operationId: createIssue
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -688,9 +688,9 @@ paths:
                       type: integer
                       nullable: true
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
                     watcher_user_ids:
                       type: array
                       items:
@@ -701,10 +701,10 @@ paths:
                       type: number
                       nullable: true
                     uploads:
-                      $ref: '#/components/schemas/uploads'
+                      $ref: "#/components/schemas/uploads"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -713,19 +713,19 @@ paths:
                   - issue
                 properties:
                   issue:
-                    $ref: '#/components/schemas/issue.summary'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/issue.summary"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /issues/{issue_id}.{format}:
     get:
       tags:
@@ -735,9 +735,9 @@ paths:
       summary: Show issue
       operationId: getIssue
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: include
           in: query
           description: |-
@@ -757,8 +757,8 @@ paths:
                 - allowed_statuses
           explode: false
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -767,15 +767,15 @@ paths:
                   - issue
                 properties:
                   issue:
-                    $ref: '#/components/schemas/issue'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/issue"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Issues
@@ -784,9 +784,9 @@ paths:
       summary: Update issue
       operationId: updateIssue
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -836,9 +836,9 @@ paths:
                       type: integer
                       nullable: true
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
                     is_private:
                       type: boolean
                     estimated_hours:
@@ -855,24 +855,24 @@ paths:
                       items:
                         type: integer
                     uploads:
-                      $ref: '#/components/schemas/uploads'
+                      $ref: "#/components/schemas/uploads"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Issues
@@ -881,20 +881,20 @@ paths:
       summary: Delete issue
       operationId: deleteIssue
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/issues.{format}:
     get:
       tags:
@@ -904,13 +904,13 @@ paths:
       summary: List issues by project
       operationId: getIssuesByProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
         - name: sort
           in: query
           description: |-
@@ -1366,8 +1366,8 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -1378,27 +1378,27 @@ paths:
                   issues:
                     type: array
                     items:
-                      $ref: '#/components/schemas/issue.summary'
+                      $ref: "#/components/schemas/issue.summary"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
           description: Returned when a filter parameter has an invalid value.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     post:
       tags:
         - Issues
@@ -1407,9 +1407,9 @@ paths:
       summary: Create issue under project
       operationId: createIssueUnderProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -1459,9 +1459,9 @@ paths:
                       type: integer
                       nullable: true
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
                     watcher_user_ids:
                       type: array
                       items:
@@ -1472,10 +1472,10 @@ paths:
                       type: number
                       nullable: true
                     uploads:
-                      $ref: '#/components/schemas/uploads'
+                      $ref: "#/components/schemas/uploads"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -1484,21 +1484,21 @@ paths:
                   - issue
                 properties:
                   issue:
-                    $ref: '#/components/schemas/issue.summary'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/issue.summary"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /issues/{issue_id}/watchers.{format}:
     post:
       tags:
@@ -1509,9 +1509,9 @@ paths:
       description: Returns 204 even when the user_id does not exist (the watcher is silently not added). A nonexistent issue yields 403, not 404.
       operationId: addWatcher
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -1523,14 +1523,14 @@ paths:
                 user_id:
                   type: integer
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /issues/{issue_id}/watchers/{user_id}.{format}:
     delete:
       tags:
@@ -1540,21 +1540,21 @@ paths:
       summary: Remove watcher
       operationId: removeWatcher
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/user_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/user_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects.{format}:
     get:
       tags:
@@ -1564,12 +1564,12 @@ paths:
       summary: List projects
       operationId: getProjects
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
         - name: include
           in: query
           description: |-
@@ -1663,8 +1663,8 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -1675,19 +1675,19 @@ paths:
                   projects:
                     type: array
                     items:
-                      $ref: '#/components/schemas/project.summary'
+                      $ref: "#/components/schemas/project.summary"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Projects
@@ -1696,8 +1696,8 @@ paths:
       summary: Create project
       operationId: createProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -1760,12 +1760,12 @@ paths:
                       items:
                         type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -1774,19 +1774,19 @@ paths:
                   - project
                 properties:
                   project:
-                    $ref: '#/components/schemas/project'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/project"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /projects/{project_id}.{format}:
     get:
       tags:
@@ -1796,9 +1796,9 @@ paths:
       summary: Show project
       operationId: getProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: include
           in: query
           description: |-
@@ -1816,8 +1816,8 @@ paths:
                 - issue_custom_fields
           explode: false
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -1826,15 +1826,15 @@ paths:
                   - project
                 properties:
                   project:
-                    $ref: '#/components/schemas/project'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/project"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Projects
@@ -1843,9 +1843,9 @@ paths:
       summary: Update project
       operationId: updateProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -1903,26 +1903,26 @@ paths:
                       items:
                         type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Projects
@@ -1931,20 +1931,20 @@ paths:
       summary: Delete project
       operationId: deleteProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/archive.{format}:
     put:
       tags:
@@ -1954,26 +1954,26 @@ paths:
       summary: Archive project
       operationId: archiveProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /projects/{project_id}/unarchive.{format}:
     put:
       tags:
@@ -1983,20 +1983,20 @@ paths:
       summary: Unarchive project
       operationId: unarchiveProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/memberships.{format}:
     get:
       tags:
@@ -2006,16 +2006,16 @@ paths:
       summary: List memberships
       operationId: getMemberships
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -2026,21 +2026,21 @@ paths:
                   memberships:
                     type: array
                     items:
-                      $ref: '#/components/schemas/membership'
+                      $ref: "#/components/schemas/membership"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Project Memberships
@@ -2049,9 +2049,9 @@ paths:
       summary: Create membership
       operationId: createMembership
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -2073,8 +2073,8 @@ paths:
                       items:
                         type: integer
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -2083,21 +2083,21 @@ paths:
                   - membership
                 properties:
                   membership:
-                    $ref: '#/components/schemas/membership'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/membership"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /memberships/{membership_id}.{format}:
     get:
       tags:
@@ -2107,12 +2107,12 @@ paths:
       summary: Show membership
       operationId: getMembership
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/membership_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/membership_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -2121,27 +2121,27 @@ paths:
                   - membership
                 properties:
                   membership:
-                    $ref: '#/components/schemas/membership'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/membership"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Project Memberships
       externalDocs:
         url: https://www.redmine.org/projects/redmine/wiki/Rest_Memberships#PUT
       summary: Update membership
-      description: 'Warning: sending an empty role_ids returns 422 but still destroys the membership — role assignments are saved immediately and a member left without roles is removed.'
+      description: "Warning: sending an empty role_ids returns 422 but still destroys the membership — role assignments are saved immediately and a member left without roles is removed."
       operationId: updateMembership
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/membership_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/membership_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -2158,22 +2158,22 @@ paths:
                       items:
                         type: integer
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Project Memberships
@@ -2182,66 +2182,66 @@ paths:
       summary: Delete membership
       operationId: deleteMembership
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/membership_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/membership_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
           description: Returned without a body when the membership is not deletable (e.g. inherited from a group).
   /projects/{project_id}/close.{format}:
     put:
       tags:
         - Projects
       summary: Close project
-      description: 'Undocumented: This operation is not listed in the official documentation.'
+      description: "Undocumented: This operation is not listed in the official documentation."
       operationId: closeProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/reopen.{format}:
     put:
       tags:
         - Projects
       summary: Reopen project
-      description: 'Undocumented: This operation is not listed in the official documentation.'
+      description: "Undocumented: This operation is not listed in the official documentation."
       operationId: reopenProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /users.{format}:
     get:
       tags:
@@ -2251,12 +2251,12 @@ paths:
       summary: List users
       operationId: getUsers
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
         - name: include
           in: query
           description: |-
@@ -2378,8 +2378,8 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -2390,25 +2390,25 @@ paths:
                   users:
                     type: array
                     items:
-                      $ref: '#/components/schemas/user.summary'
+                      $ref: "#/components/schemas/user.summary"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
           description: Returned when a filter parameter has an invalid value.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     post:
       tags:
         - Users
@@ -2417,8 +2417,8 @@ paths:
       summary: Create user
       operationId: createUser
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -2477,20 +2477,20 @@ paths:
                       description: Generate a random password automatically. When true, the password field is ignored. Only effective for locally authenticated users (auth_source_id is null).
                       type: boolean
                     status:
-                      description: 'User account status: `1` (active), `2` (registered), `3` (locked).'
+                      description: "User account status: `1` (active), `2` (registered), `3` (locked)."
                       type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
                 send_information:
                   description: Set to true to send an account information email to the user. Not stored; only triggers email delivery.
                   type: boolean
                 pref:
-                  $ref: '#/components/schemas/pref'
+                  $ref: "#/components/schemas/pref"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -2499,19 +2499,19 @@ paths:
                   - user
                 properties:
                   user:
-                    $ref: '#/components/schemas/user'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/user"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /users/{user_id}.{format}:
     get:
       tags:
@@ -2521,9 +2521,9 @@ paths:
       summary: Show user
       operationId: getUser
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/user_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/user_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: include
           in: query
           description: |-
@@ -2539,8 +2539,8 @@ paths:
                 - auth_source
           explode: false
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -2549,15 +2549,15 @@ paths:
                   - user
                 properties:
                   user:
-                    $ref: '#/components/schemas/user'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/user"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Users
@@ -2566,9 +2566,9 @@ paths:
       summary: Update user
       operationId: updateUser
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/user_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/user_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -2620,12 +2620,12 @@ paths:
                       description: Generate a random password automatically. When true, the password field is ignored. Only effective for locally authenticated users (auth_source_id is null).
                       type: boolean
                     status:
-                      description: 'User account status: `1` (active), `2` (registered), `3` (locked).'
+                      description: "User account status: `1` (active), `2` (registered), `3` (locked)."
                       type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
                     group_ids:
                       description: Group IDs to assign the user to. Admin-only. Replaces all current group memberships (not append).
                       type: array
@@ -2635,24 +2635,24 @@ paths:
                   description: Set to true to send an account information email to the user. Not stored; only triggers email delivery.
                   type: boolean
                 pref:
-                  $ref: '#/components/schemas/pref'
+                  $ref: "#/components/schemas/pref"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Users
@@ -2661,21 +2661,21 @@ paths:
       summary: Delete user
       operationId: deleteUser
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/user_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/user_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
           description: Returned without a body when the user tries to delete their own account and it is not deletable (e.g. the only active administrator).
   /users/current.{format}:
     get:
@@ -2686,8 +2686,8 @@ paths:
       summary: Show current user
       operationId: getCurrentUser
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: include
           in: query
           description: |-
@@ -2703,8 +2703,8 @@ paths:
                 - auth_source
           explode: false
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -2713,13 +2713,13 @@ paths:
                   - user
                 properties:
                   user:
-                    $ref: '#/components/schemas/user'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/user"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /time_entries.{format}:
     get:
       tags:
@@ -2729,12 +2729,12 @@ paths:
       summary: List time entries
       operationId: getTimeEntries
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
         - name: user_id
           in: query
           description: |-
@@ -2926,8 +2926,8 @@ paths:
             type: string
             example: spent_on:desc
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -2938,19 +2938,19 @@ paths:
                   time_entries:
                     type: array
                     items:
-                      $ref: '#/components/schemas/time_entry'
+                      $ref: "#/components/schemas/time_entry"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Time Entries
@@ -2959,8 +2959,8 @@ paths:
       summary: Create time entry
       operationId: createTimeEntry
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -2990,12 +2990,12 @@ paths:
                     user_id:
                       type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -3004,19 +3004,19 @@ paths:
                   - time_entry
                 properties:
                   time_entry:
-                    $ref: '#/components/schemas/time_entry'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/time_entry"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /time_entries/{time_entry_id}.{format}:
     get:
       tags:
@@ -3026,12 +3026,12 @@ paths:
       summary: Show time entry
       operationId: getTimeEntry
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/time_entry_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/time_entry_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -3040,15 +3040,15 @@ paths:
                   - time_entry
                 properties:
                   time_entry:
-                    $ref: '#/components/schemas/time_entry'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/time_entry"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Time Entries
@@ -3057,9 +3057,9 @@ paths:
       summary: Update time entry
       operationId: updateTimeEntry
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/time_entry_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/time_entry_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -3085,26 +3085,26 @@ paths:
                     user_id:
                       type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Time Entries
@@ -3113,26 +3113,26 @@ paths:
       summary: Delete time entry
       operationId: deleteTimeEntry
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/time_entry_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/time_entry_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /projects/{project_id}/time_entries.{format}:
     get:
       tags:
@@ -3142,13 +3142,13 @@ paths:
       summary: List time entries by project
       operationId: getTimeEntriesByProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
         - name: user_id
           in: query
           description: |-
@@ -3330,8 +3330,8 @@ paths:
             type: string
             example: spent_on:desc
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -3342,21 +3342,21 @@ paths:
                   time_entries:
                     type: array
                     items:
-                      $ref: '#/components/schemas/time_entry'
+                      $ref: "#/components/schemas/time_entry"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Time Entries
@@ -3365,9 +3365,9 @@ paths:
       summary: Create time entry under project
       operationId: createTimeEntryUnderProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -3395,12 +3395,12 @@ paths:
                     user_id:
                       type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -3409,21 +3409,21 @@ paths:
                   - time_entry
                 properties:
                   time_entry:
-                    $ref: '#/components/schemas/time_entry'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/time_entry"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /issues/{issue_id}/time_entries.{format}:
     post:
       tags:
@@ -3433,9 +3433,9 @@ paths:
       summary: Create time entry under issue
       operationId: createTimeEntryUnderIssue
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -3463,12 +3463,12 @@ paths:
                     user_id:
                       type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -3477,12 +3477,12 @@ paths:
                   - time_entry
                 properties:
                   time_entry:
-                    $ref: '#/components/schemas/time_entry'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
+                    $ref: "#/components/schemas/time_entry"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
           description: Returned with a framework-generated body when the issue does not exist (the issue lookup is not rescued by the controller).
           content:
             application/json:
@@ -3496,14 +3496,14 @@ paths:
                     type: integer
                   error:
                     type: string
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /news.{format}:
     get:
       tags:
@@ -3513,15 +3513,15 @@ paths:
       summary: List news
       operationId: getNewsList
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -3532,19 +3532,19 @@ paths:
                   news:
                     type: array
                     items:
-                      $ref: '#/components/schemas/news'
+                      $ref: "#/components/schemas/news"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /news/{news_id}.{format}:
     get:
       tags:
@@ -3554,9 +3554,9 @@ paths:
       summary: Show news
       operationId: getNews
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/news_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/news_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: include
           in: query
           description: |-
@@ -3571,8 +3571,8 @@ paths:
                 - comments
           explode: false
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -3581,15 +3581,15 @@ paths:
                   - news
                 properties:
                   news:
-                    $ref: '#/components/schemas/news'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/news"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - News
@@ -3598,9 +3598,9 @@ paths:
       summary: Update news
       operationId: updateNews
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/news_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/news_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -3617,24 +3617,24 @@ paths:
                     description:
                       type: string
                     uploads:
-                      $ref: '#/components/schemas/uploads'
+                      $ref: "#/components/schemas/uploads"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - News
@@ -3643,20 +3643,20 @@ paths:
       summary: Delete news
       operationId: deleteNews
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/news_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/news_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/news.{format}:
     get:
       tags:
@@ -3666,16 +3666,16 @@ paths:
       summary: List news by project
       operationId: getNewsListByProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -3686,21 +3686,21 @@ paths:
                   news:
                     type: array
                     items:
-                      $ref: '#/components/schemas/news'
+                      $ref: "#/components/schemas/news"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - News
@@ -3709,9 +3709,9 @@ paths:
       summary: Create news
       operationId: createNews
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -3733,24 +3733,24 @@ paths:
                     description:
                       type: string
                     uploads:
-                      $ref: '#/components/schemas/uploads'
+                      $ref: "#/components/schemas/uploads"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /issues/{issue_id}/relations.{format}:
     get:
       tags:
@@ -3760,12 +3760,12 @@ paths:
       summary: List issue relations
       operationId: getIssueRelations
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -3776,15 +3776,15 @@ paths:
                   relations:
                     type: array
                     items:
-                      $ref: '#/components/schemas/issue_relation'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/issue_relation"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Issue Relations
@@ -3793,9 +3793,9 @@ paths:
       summary: Create issue relation
       operationId: createIssueRelation
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -3832,8 +3832,8 @@ paths:
                       type: integer
                       nullable: true
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -3842,21 +3842,21 @@ paths:
                   - relation
                 properties:
                   relation:
-                    $ref: '#/components/schemas/issue_relation'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/issue_relation"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /relations/{issue_relation_id}.{format}:
     get:
       tags:
@@ -3866,12 +3866,12 @@ paths:
       summary: Show issue relation
       operationId: getIssueRelation
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_relation_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_relation_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -3880,15 +3880,15 @@ paths:
                   - relation
                 properties:
                   relation:
-                    $ref: '#/components/schemas/issue_relation'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/issue_relation"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     delete:
       tags:
         - Issue Relations
@@ -3897,20 +3897,20 @@ paths:
       summary: Delete issue relation
       operationId: deleteIssueRelation
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_relation_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_relation_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/versions.{format}:
     get:
       tags:
@@ -3920,14 +3920,14 @@ paths:
       summary: List versions by project
       operationId: getVersionsByProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -3938,17 +3938,17 @@ paths:
                   versions:
                     type: array
                     items:
-                      $ref: '#/components/schemas/version.summary'
+                      $ref: "#/components/schemas/version.summary"
                   total_count:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Versions
@@ -3957,9 +3957,9 @@ paths:
       summary: Create version
       operationId: createVersion
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -4006,12 +4006,12 @@ paths:
                       description: Set to true to make this the default target version for new issues in the project.
                       type: boolean
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -4020,21 +4020,21 @@ paths:
                   - version
                 properties:
                   version:
-                    $ref: '#/components/schemas/version'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/version"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /versions/{version_id}.{format}:
     get:
       tags:
@@ -4044,12 +4044,12 @@ paths:
       summary: Show version
       operationId: getVersion
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/version_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/version_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4058,15 +4058,15 @@ paths:
                   - version
                 properties:
                   version:
-                    $ref: '#/components/schemas/version'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/version"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Versions
@@ -4075,9 +4075,9 @@ paths:
       summary: Update version
       operationId: updateVersion
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/version_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/version_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -4120,26 +4120,26 @@ paths:
                       description: Set to true to make this the default target version for new issues in the project.
                       type: boolean
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Versions
@@ -4148,21 +4148,21 @@ paths:
       summary: Delete version
       operationId: deleteVersion
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/version_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/version_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
           description: Returned without a body when the version is not deletable (e.g. issues are assigned to it).
   /projects/{project_id}/wiki/index.{format}:
     get:
@@ -4173,12 +4173,12 @@ paths:
       summary: List wiki pages
       operationId: getWikiPages
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4189,15 +4189,15 @@ paths:
                   wiki_pages:
                     type: array
                     items:
-                      $ref: '#/components/schemas/wiki_page.summary'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/wiki_page.summary"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/wiki/{wiki_page_title}.{format}:
     get:
       tags:
@@ -4207,10 +4207,10 @@ paths:
       summary: Show wiki page
       operationId: getWikiPage
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/wiki_page_title'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/wiki_page_title"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: include
           in: query
           description: |-
@@ -4224,8 +4224,8 @@ paths:
                 - attachments
           explode: false
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4234,15 +4234,15 @@ paths:
                   - wiki_page
                 properties:
                   wiki_page:
-                    $ref: '#/components/schemas/wiki_page'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/wiki_page"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Wiki Pages
@@ -4251,10 +4251,10 @@ paths:
       summary: Create or update wiki page
       operationId: updateWikiPage
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/wiki_page_title'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/wiki_page_title"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -4283,8 +4283,8 @@ paths:
                       description: When renaming with title, controls whether the old title keeps redirecting to the new one. Only the string "0" disables the redirect; any other value (including boolean false) leaves it enabled.
                       type: string
                       enum:
-                        - '0'
-                        - '1'
+                        - "0"
+                        - "1"
                     is_start_page:
                       description: Make this page the start page of the wiki. Requires the manage_wiki permission.
                       type: boolean
@@ -4293,10 +4293,10 @@ paths:
                       items:
                         type: integer
                     uploads:
-                      $ref: '#/components/schemas/uploads'
+                      $ref: "#/components/schemas/uploads"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -4305,25 +4305,25 @@ paths:
                   - wiki_page
                 properties:
                   wiki_page:
-                    $ref: '#/components/schemas/wiki_page'
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '409':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/wiki_page"
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "409":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Wiki Pages
@@ -4332,21 +4332,21 @@ paths:
       summary: Delete wiki page
       operationId: deleteWikiPage
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/wiki_page_title'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/wiki_page_title"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/wiki/{wiki_page_title}/{version_id}.{format}:
     get:
       tags:
@@ -4356,11 +4356,11 @@ paths:
       summary: Show wiki page by specific version
       operationId: getWikiPageByVersion
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/wiki_page_title'
-        - $ref: '#/components/parameters/version_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/wiki_page_title"
+        - $ref: "#/components/parameters/version_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: include
           in: query
           description: |-
@@ -4374,8 +4374,8 @@ paths:
                 - attachments
           explode: false
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4384,15 +4384,15 @@ paths:
                   - wiki_page
                 properties:
                   wiki_page:
-                    $ref: '#/components/schemas/wiki_page'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/wiki_page"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /queries.{format}:
     get:
       tags:
@@ -4402,15 +4402,15 @@ paths:
       summary: List queries
       operationId: getQueries
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4421,19 +4421,19 @@ paths:
                   queries:
                     type: array
                     items:
-                      $ref: '#/components/schemas/query'
+                      $ref: "#/components/schemas/query"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /attachments/{attachment_id}.{format}:
     get:
       tags:
@@ -4443,12 +4443,12 @@ paths:
       summary: Show attachment
       operationId: getAttachment
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/attachment_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/attachment_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4457,15 +4457,15 @@ paths:
                   - attachment
                 properties:
                   attachment:
-                    $ref: '#/components/schemas/attachment'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/attachment"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     patch:
       tags:
         - Attachments
@@ -4474,9 +4474,9 @@ paths:
       summary: Update attachment
       operationId: updateAttachment
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/attachment_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/attachment_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -4493,22 +4493,22 @@ paths:
                     description:
                       type: string
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Attachments
@@ -4517,62 +4517,62 @@ paths:
       summary: Delete attachment
       operationId: deleteAttachment
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/attachment_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/attachment_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /attachments/download/{attachment_id}/{filename}:
     get:
       tags:
         - Attachments
       summary: Download attachment file
-      description: 'Undocumented: This operation is not listed in the official documentation.'
+      description: "Undocumented: This operation is not listed in the official documentation."
       operationId: downloadAttachmentFile
       parameters:
-        - $ref: '#/components/parameters/attachment_id'
-        - $ref: '#/components/parameters/filename'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/attachment_id"
+        - $ref: "#/components/parameters/filename"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
-            '*/*':
+            "*/*":
               schema:
                 type: string
                 format: binary
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
           description: Returned as an HTML error page regardless of the Accept header — the route pins the request format to html.
           content:
             text/html:
               schema:
                 type: string
                 format: binary
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /attachments/thumbnail/{attachment_id}:
     get:
       tags:
         - Attachments
       summary: Download thumbnail
-      description: 'Undocumented: This operation is not listed in the official documentation.'
+      description: "Undocumented: This operation is not listed in the official documentation."
       operationId: downloadThumbnail
       parameters:
-        - $ref: '#/components/parameters/attachment_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/attachment_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: size
           in: query
           description: |-
@@ -4581,21 +4581,21 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             image/png:
               schema:
                 type: string
                 format: binary
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
           description: The body is empty for clients sending Accept:application/json; browsers (Accept:*/*) receive an HTML error page instead.
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /issue_statuses.{format}:
     get:
       tags:
@@ -4605,11 +4605,11 @@ paths:
       summary: List issue statuses
       operationId: getIssueStatuses
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4620,13 +4620,13 @@ paths:
                   issue_statuses:
                     type: array
                     items:
-                      $ref: '#/components/schemas/issue_status'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/issue_status"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /trackers.{format}:
     get:
       tags:
@@ -4636,11 +4636,11 @@ paths:
       summary: List trackers
       operationId: getTrackers
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4651,13 +4651,13 @@ paths:
                   trackers:
                     type: array
                     items:
-                      $ref: '#/components/schemas/tracker'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/tracker"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/issue_categories.{format}:
     get:
       tags:
@@ -4667,14 +4667,14 @@ paths:
       summary: List issue categories
       operationId: getIssueCategories
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4685,17 +4685,17 @@ paths:
                   issue_categories:
                     type: array
                     items:
-                      $ref: '#/components/schemas/issue_category'
+                      $ref: "#/components/schemas/issue_category"
                   total_count:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Issue Categories
@@ -4704,9 +4704,9 @@ paths:
       summary: Create issue category
       operationId: createIssueCategory
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -4725,8 +4725,8 @@ paths:
                     assigned_to_id:
                       type: integer
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -4735,21 +4735,21 @@ paths:
                   - issue_category
                 properties:
                   issue_category:
-                    $ref: '#/components/schemas/issue_category'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/issue_category"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /enumerations/issue_priorities.{format}:
     get:
       tags:
@@ -4759,11 +4759,11 @@ paths:
       summary: List issue priorities
       operationId: getIssuePriorities
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4774,13 +4774,13 @@ paths:
                   issue_priorities:
                     type: array
                     items:
-                      $ref: '#/components/schemas/issue_priority'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/issue_priority"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /enumerations/time_entry_activities.{format}:
     get:
       tags:
@@ -4790,11 +4790,11 @@ paths:
       summary: List time entry activities
       operationId: getTimeEntryActivities
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4805,13 +4805,13 @@ paths:
                   time_entry_activities:
                     type: array
                     items:
-                      $ref: '#/components/schemas/time_entry_activity'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/time_entry_activity"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /enumerations/document_categories.{format}:
     get:
       tags:
@@ -4821,11 +4821,11 @@ paths:
       summary: List document categories
       operationId: getDocumentCategories
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4836,13 +4836,13 @@ paths:
                   document_categories:
                     type: array
                     items:
-                      $ref: '#/components/schemas/document_category'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/document_category"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /issue_categories/{issue_category_id}.{format}:
     get:
       tags:
@@ -4852,12 +4852,12 @@ paths:
       summary: Show issue category
       operationId: getIssueCategory
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_category_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_category_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4866,15 +4866,15 @@ paths:
                   - issue_category
                 properties:
                   issue_category:
-                    $ref: '#/components/schemas/issue_category'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/issue_category"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Issue Categories
@@ -4883,9 +4883,9 @@ paths:
       summary: Update issue category
       operationId: updateIssueCategory
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_category_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_category_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -4900,22 +4900,22 @@ paths:
                     assigned_to_id:
                       type: integer
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Issue Categories
@@ -4924,9 +4924,9 @@ paths:
       summary: Delete issue category
       operationId: deleteIssueCategory
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/issue_category_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/issue_category_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: reassign_to_id
           in: query
           description: |-
@@ -4935,16 +4935,16 @@ paths:
           schema:
             type: integer
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /roles.{format}:
     get:
       tags:
@@ -4954,11 +4954,11 @@ paths:
       summary: List roles
       operationId: getRoles
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4969,13 +4969,13 @@ paths:
                   roles:
                     type: array
                     items:
-                      $ref: '#/components/schemas/id_name'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/id_name"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /roles/{role_id}.{format}:
     get:
       tags:
@@ -4985,12 +4985,12 @@ paths:
       summary: Show role
       operationId: getRole
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/role_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/role_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -4999,15 +4999,15 @@ paths:
                   - role
                 properties:
                   role:
-                    $ref: '#/components/schemas/role'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/role"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /groups.{format}:
     get:
       tags:
@@ -5017,8 +5017,8 @@ paths:
       summary: List groups
       operationId: getGroups
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: builtin
           in: query
           description: |-
@@ -5027,10 +5027,10 @@ paths:
           schema:
             type: string
             enum:
-              - '1'
+              - "1"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -5041,13 +5041,13 @@ paths:
                   groups:
                     type: array
                     items:
-                      $ref: '#/components/schemas/group.summary'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/group.summary"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Groups
@@ -5056,8 +5056,8 @@ paths:
       summary: Create group
       operationId: createGroup
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -5080,12 +5080,12 @@ paths:
                       description: Require two-factor authentication for all members of this group.
                       type: boolean
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -5094,19 +5094,19 @@ paths:
                   - group
                 properties:
                   group:
-                    $ref: '#/components/schemas/group'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+                    $ref: "#/components/schemas/group"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /groups/{group_id}.{format}:
     get:
       tags:
@@ -5116,9 +5116,9 @@ paths:
       summary: Show group
       operationId: getGroup
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/group_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/group_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: include
           in: query
           description: |-
@@ -5133,8 +5133,8 @@ paths:
                 - memberships
           explode: false
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -5143,15 +5143,15 @@ paths:
                   - group
                 properties:
                   group:
-                    $ref: '#/components/schemas/group'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                    $ref: "#/components/schemas/group"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - Groups
@@ -5160,9 +5160,9 @@ paths:
       summary: Update group
       operationId: updateGroup
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/group_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/group_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -5181,26 +5181,26 @@ paths:
                     twofa_required:
                       type: boolean
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
     delete:
       tags:
         - Groups
@@ -5209,20 +5209,20 @@ paths:
       summary: Delete group
       operationId: deleteGroup
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/group_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/group_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /groups/{group_id}/users.{format}:
     post:
       tags:
@@ -5232,9 +5232,9 @@ paths:
       summary: Add user to group
       operationId: addUserToGroup
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/group_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/group_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -5246,22 +5246,22 @@ paths:
                 user_id:
                   type: integer
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /groups/{group_id}/users/{user_id}.{format}:
     delete:
       tags:
@@ -5271,21 +5271,21 @@ paths:
       summary: Remove user from group
       operationId: removeUserFromGroup
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/group_id'
-        - $ref: '#/components/parameters/user_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/group_id"
+        - $ref: "#/components/parameters/user_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /custom_fields.{format}:
     get:
       tags:
@@ -5295,11 +5295,11 @@ paths:
       summary: List custom fields
       operationId: getCustomFields
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -5310,13 +5310,13 @@ paths:
                   custom_fields:
                     type: array
                     items:
-                      $ref: '#/components/schemas/custom_field'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/custom_field"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /search.{format}:
     get:
       tags:
@@ -5326,12 +5326,12 @@ paths:
       summary: Search
       operationId: getSearch
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
         - name: q
           in: query
           description: |-
@@ -5445,12 +5445,12 @@ paths:
           schema:
             type: string
             enum:
-              - '0'
-              - '1'
+              - "0"
+              - "1"
               - only
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -5461,19 +5461,19 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/search'
+                      $ref: "#/components/schemas/search"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/search.{format}:
     get:
       tags:
@@ -5483,13 +5483,13 @@ paths:
       summary: Search within project
       operationId: getSearchByProject
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/nometa'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
-        - $ref: '#/components/parameters/x_redmine_nometa'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/nometa"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
+        - $ref: "#/components/parameters/x_redmine_nometa"
         - name: q
           in: query
           description: |-
@@ -5591,12 +5591,12 @@ paths:
           schema:
             type: string
             enum:
-              - '0'
-              - '1'
+              - "0"
+              - "1"
               - only
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -5607,21 +5607,21 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/search'
+                      $ref: "#/components/schemas/search"
                   total_count:
                     type: integer
                   offset:
                     type: integer
                   limit:
                     type: integer
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /projects/{project_id}/files.{format}:
     get:
       tags:
@@ -5631,12 +5631,12 @@ paths:
       summary: List files
       operationId: getFiles
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
@@ -5647,15 +5647,15 @@ paths:
                   files:
                     type: array
                     items:
-                      $ref: '#/components/schemas/file'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                      $ref: "#/components/schemas/file"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     post:
       tags:
         - Files
@@ -5665,9 +5665,9 @@ paths:
       description: An invalid or unknown upload token results in 404, not 400 — the controller's 400 render references an API template that does not exist, and the MissingTemplate handler responds with 404.
       operationId: createFile
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -5692,16 +5692,16 @@ paths:
                     content_type:
                       type: string
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /my/account.{format}:
     get:
       tags:
@@ -5711,21 +5711,21 @@ paths:
       summary: Show my account
       operationId: getMyAccount
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/my_account'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+                $ref: "#/components/schemas/my_account"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
     put:
       tags:
         - My Account
@@ -5735,8 +5735,8 @@ paths:
       description: Requests authenticated via OAuth are rejected with 403, regardless of the token's scopes.
       operationId: updateMyAccount
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -5781,30 +5781,30 @@ paths:
                     status:
                       type: integer
                     custom_fields:
-                      $ref: '#/components/schemas/custom_fields'
+                      $ref: "#/components/schemas/custom_fields"
                     custom_field_values:
-                      $ref: '#/components/schemas/custom_field_values'
+                      $ref: "#/components/schemas/custom_field_values"
                     group_ids:
                       type: array
                       items:
                         type: integer
                 pref:
-                  $ref: '#/components/schemas/pref'
+                  $ref: "#/components/schemas/pref"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /journals/{journal_id}.{format}:
     put:
       tags:
@@ -5815,9 +5815,9 @@ paths:
       description: The journal is deleted when it is updated with empty `notes` and has no property changes (`details`).
       operationId: updateJournal
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/journal_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/journal_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -5834,16 +5834,16 @@ paths:
                       description: Mark the journal notes as private. Only visible to users with the "View private notes" permission.
                       type: boolean
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
   /uploads.{format}:
     post:
       tags:
@@ -5853,8 +5853,8 @@ paths:
       summary: Upload attachment file
       operationId: uploadAttachmentFile
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
         - name: filename
           in: query
           description: Filename for the uploaded file. If not provided, a random hexadecimal name is generated.
@@ -5872,8 +5872,8 @@ paths:
               type: string
               format: binary
       responses:
-        '201':
-          description: ''
+        "201":
+          description: ""
           content:
             application/json:
               schema:
@@ -5891,33 +5891,33 @@ paths:
                         type: integer
                       token:
                         type: string
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '406':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "406":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /projects/{project_id}/repository/{repository_id}/revisions/{revision}/issues.{format}:
     post:
       tags:
         - Repositories
       summary: Add related issue
-      description: 'Undocumented: This operation is not listed in the official documentation.'
+      description: "Undocumented: This operation is not listed in the official documentation."
       operationId: addRelatedIssue
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/repository_id'
-        - $ref: '#/components/parameters/revision'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/repository_id"
+        - $ref: "#/components/parameters/revision"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       requestBody:
         content:
           application/json:
@@ -5929,47 +5929,47 @@ paths:
                 issue_id:
                   type: integer
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
-        '422':
-          description: ''
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
+        "422":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/errors'
+                $ref: "#/components/schemas/errors"
   /projects/{project_id}/repository/{repository_id}/revisions/{revision}/issues/{issue_id}.{format}:
     delete:
       tags:
         - Repositories
       summary: Remove related issue
-      description: 'Undocumented: This operation is not listed in the official documentation.'
+      description: "Undocumented: This operation is not listed in the official documentation."
       operationId: removeRelatedIssue
       parameters:
-        - $ref: '#/components/parameters/format'
-        - $ref: '#/components/parameters/project_id'
-        - $ref: '#/components/parameters/repository_id'
-        - $ref: '#/components/parameters/revision'
-        - $ref: '#/components/parameters/issue_id'
-        - $ref: '#/components/parameters/x_redmine_switch_user'
+        - $ref: "#/components/parameters/format"
+        - $ref: "#/components/parameters/project_id"
+        - $ref: "#/components/parameters/repository_id"
+        - $ref: "#/components/parameters/revision"
+        - $ref: "#/components/parameters/issue_id"
+        - $ref: "#/components/parameters/x_redmine_switch_user"
       responses:
-        '204':
-          description: ''
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          description: ''
-        '412':
-          $ref: '#/components/responses/PreconditionFailed'
+        "204":
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: ""
+        "412":
+          $ref: "#/components/responses/PreconditionFailed"
 components:
   securitySchemes:
     Basic:
@@ -6196,6 +6196,7 @@ components:
         - content_type
         - description
         - content_url
+        - author
         - created_on
       properties:
         id:
@@ -6215,14 +6216,49 @@ components:
         thumbnail_url:
           type: string
         author:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         created_on:
           type: string
           format: date-time
+    issue_relation:
+      type: object
+      required:
+        - id
+        - issue_id
+        - issue_to_id
+        - relation_type
+        - delay
+      properties:
+        id:
+          type: integer
+        issue_id:
+          type: integer
+        issue_to_id:
+          type: integer
+        relation_type:
+          type: string
+          enum:
+            - relates
+            - duplicates
+            - duplicated
+            - blocks
+            - blocked
+            - precedes
+            - follows
+            - copied_to
+            - copied_from
+        delay:
+          type: integer
+          nullable: true
     issue.summary:
       type: object
       required:
         - id
+        - project
+        - tracker
+        - status
+        - priority
+        - author
         - subject
         - description
         - start_date
@@ -6238,23 +6274,25 @@ components:
         id:
           type: integer
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         tracker:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         status:
-          $ref: '#/components/schemas/issue_status.summary'
+          $ref: "#/components/schemas/issue_status.summary"
         priority:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         author:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         assigned_to:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         category:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         fixed_version:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         parent:
           type: object
+          required:
+            - id
           properties:
             id:
               type: integer
@@ -6290,7 +6328,7 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
         created_on:
           type: string
           format: date-time
@@ -6304,33 +6342,11 @@ components:
         attachments:
           type: array
           items:
-            $ref: '#/components/schemas/attachment'
+            $ref: "#/components/schemas/attachment"
         relations:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: integer
-              issue_id:
-                type: integer
-              issue_to_id:
-                type: integer
-              relation_type:
-                type: string
-                enum:
-                  - relates
-                  - duplicates
-                  - duplicated
-                  - blocks
-                  - blocked
-                  - precedes
-                  - follows
-                  - copied_to
-                  - copied_from
-              delay:
-                type: integer
-                nullable: true
+            $ref: "#/components/schemas/issue_relation"
     errors:
       type: object
       required:
@@ -6382,6 +6398,11 @@ components:
       type: object
       required:
         - id
+        - project
+        - tracker
+        - status
+        - priority
+        - author
         - subject
         - description
         - start_date
@@ -6397,23 +6418,25 @@ components:
         id:
           type: integer
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         tracker:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         status:
-          $ref: '#/components/schemas/issue_status.summary'
+          $ref: "#/components/schemas/issue_status.summary"
         priority:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         author:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         assigned_to:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         category:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         fixed_version:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         parent:
           type: object
+          required:
+            - id
           properties:
             id:
               type: integer
@@ -6449,7 +6472,7 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
         created_on:
           type: string
           format: date-time
@@ -6464,11 +6487,15 @@ components:
           type: array
           items:
             type: object
+            required:
+              - revision
+              - comments
+              - committed_on
             properties:
               revision:
                 type: string
               user:
-                $ref: '#/components/schemas/id_name'
+                $ref: "#/components/schemas/id_name"
               comments:
                 type: string
               committed_on:
@@ -6478,43 +6505,23 @@ components:
           type: array
           items:
             type: object
+            required:
+              - tracker
             properties:
               id:
                 type: integer
               tracker:
-                $ref: '#/components/schemas/id_name'
+                $ref: "#/components/schemas/id_name"
               subject:
                 type: string
         attachments:
           type: array
           items:
-            $ref: '#/components/schemas/attachment'
+            $ref: "#/components/schemas/attachment"
         relations:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: integer
-              issue_id:
-                type: integer
-              issue_to_id:
-                type: integer
-              relation_type:
-                type: string
-                enum:
-                  - relates
-                  - duplicates
-                  - duplicated
-                  - blocks
-                  - blocked
-                  - precedes
-                  - follows
-                  - copied_to
-                  - copied_from
-              delay:
-                type: integer
-                nullable: true
+            $ref: "#/components/schemas/issue_relation"
         journals:
           type: array
           items:
@@ -6523,7 +6530,7 @@ components:
               id:
                 type: integer
               user:
-                $ref: '#/components/schemas/id_name'
+                $ref: "#/components/schemas/id_name"
               notes:
                 type: string
               created_on:
@@ -6533,7 +6540,7 @@ components:
                 type: string
                 format: date-time
               updated_by:
-                $ref: '#/components/schemas/id_name'
+                $ref: "#/components/schemas/id_name"
               private_notes:
                 type: boolean
               details:
@@ -6554,11 +6561,11 @@ components:
         watchers:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         allowed_statuses:
           type: array
           items:
-            $ref: '#/components/schemas/issue_status.summary'
+            $ref: "#/components/schemas/issue_status.summary"
     project.summary:
       type: object
       required:
@@ -6586,7 +6593,7 @@ components:
           type: string
           nullable: true
         parent:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         status:
           type: integer
         is_public:
@@ -6596,27 +6603,27 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
         trackers:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         issue_categories:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         time_entry_activities:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         enabled_modules:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         issue_custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         created_on:
           type: string
           format: date-time
@@ -6650,7 +6657,7 @@ components:
           type: string
           nullable: true
         parent:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         status:
           type: integer
         is_public:
@@ -6658,33 +6665,33 @@ components:
         inherit_members:
           type: boolean
         default_version:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         default_assignee:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
         trackers:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         issue_categories:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         time_entry_activities:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         enabled_modules:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         issue_custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         created_on:
           type: string
           format: date-time
@@ -6713,15 +6720,15 @@ components:
         id:
           type: integer
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         user:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         group:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         roles:
           type: array
           items:
-            $ref: '#/components/schemas/membership_role'
+            $ref: "#/components/schemas/membership_role"
     user.summary:
       type: object
       required:
@@ -6772,11 +6779,11 @@ components:
         status:
           type: integer
         auth_source:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
     pref:
       type: object
       properties:
@@ -6878,13 +6885,13 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
         auth_source:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         groups:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         memberships:
           type: array
           items:
@@ -6897,7 +6904,7 @@ components:
               id:
                 type: integer
               project:
-                $ref: '#/components/schemas/id_name'
+                $ref: "#/components/schemas/id_name"
               roles:
                 type: array
                 items:
@@ -6916,6 +6923,9 @@ components:
       type: object
       required:
         - id
+        - project
+        - user
+        - activity
         - hours
         - comments
         - spent_on
@@ -6925,7 +6935,7 @@ components:
         id:
           type: integer
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         issue:
           type: object
           required:
@@ -6934,9 +6944,9 @@ components:
             id:
               type: integer
         user:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         activity:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         hours:
           type: number
         comments:
@@ -6954,23 +6964,25 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
     news_comment:
       type: object
       required:
         - id
+        - author
         - content
       properties:
         id:
           type: integer
         author:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         content:
           type: string
     news:
       type: object
       required:
         - id
+        - project
         - title
         - description
         - created_on
@@ -6978,9 +6990,9 @@ components:
         id:
           type: integer
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         author:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         title:
           type: string
         summary:
@@ -6993,45 +7005,16 @@ components:
         attachments:
           type: array
           items:
-            $ref: '#/components/schemas/attachment'
+            $ref: "#/components/schemas/attachment"
         comments:
           type: array
           items:
-            $ref: '#/components/schemas/news_comment'
-    issue_relation:
-      type: object
-      required:
-        - id
-        - issue_id
-        - issue_to_id
-        - relation_type
-        - delay
-      properties:
-        id:
-          type: integer
-        issue_id:
-          type: integer
-        issue_to_id:
-          type: integer
-        relation_type:
-          type: string
-          enum:
-            - relates
-            - duplicates
-            - duplicated
-            - blocks
-            - blocked
-            - precedes
-            - follows
-            - copied_to
-            - copied_from
-        delay:
-          type: integer
-          nullable: true
+            $ref: "#/components/schemas/news_comment"
     version.summary:
       type: object
       required:
         - id
+        - project
         - name
         - description
         - status
@@ -7044,7 +7027,7 @@ components:
         id:
           type: integer
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         name:
           type: string
         description:
@@ -7074,7 +7057,7 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
         created_on:
           type: string
           format: date-time
@@ -7085,6 +7068,7 @@ components:
       type: object
       required:
         - id
+        - project
         - name
         - description
         - status
@@ -7097,7 +7081,7 @@ components:
         id:
           type: integer
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         name:
           type: string
         description:
@@ -7131,7 +7115,7 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
         created_on:
           type: string
           format: date-time
@@ -7187,12 +7171,12 @@ components:
         version:
           type: integer
         author:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         comments:
           type: string
           nullable: true
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         created_on:
           type: string
           format: date-time
@@ -7202,7 +7186,7 @@ components:
         attachments:
           type: array
           items:
-            $ref: '#/components/schemas/attachment'
+            $ref: "#/components/schemas/attachment"
     query:
       type: object
       required:
@@ -7242,6 +7226,7 @@ components:
       required:
         - id
         - name
+        - default_status
         - description
         - enabled_standard_fields
       properties:
@@ -7250,7 +7235,7 @@ components:
         name:
           type: string
         default_status:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         description:
           type: string
           nullable: true
@@ -7262,16 +7247,17 @@ components:
       type: object
       required:
         - id
+        - project
         - name
       properties:
         id:
           type: integer
         project:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         name:
           type: string
         assigned_to:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
     issue_priority:
       type: object
       required:
@@ -7291,7 +7277,7 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
     time_entry_activity:
       type: object
       required:
@@ -7311,7 +7297,7 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
     document_category:
       type: object
       required:
@@ -7331,7 +7317,7 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
     role:
       type: object
       required:
@@ -7374,7 +7360,7 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
     group:
       type: object
       required:
@@ -7390,11 +7376,11 @@ components:
         custom_fields:
           type: array
           items:
-            $ref: '#/components/schemas/custom_field_value'
+            $ref: "#/components/schemas/custom_field_value"
         users:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         memberships:
           type: array
           items:
@@ -7407,11 +7393,11 @@ components:
               id:
                 type: integer
               project:
-                $ref: '#/components/schemas/id_name'
+                $ref: "#/components/schemas/id_name"
               roles:
                 type: array
                 items:
-                  $ref: '#/components/schemas/membership_role'
+                  $ref: "#/components/schemas/membership_role"
     custom_field:
       type: object
       required:
@@ -7492,15 +7478,18 @@ components:
         trackers:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         roles:
           type: array
           items:
-            $ref: '#/components/schemas/id_name'
+            $ref: "#/components/schemas/id_name"
         possible_values:
           type: array
           items:
             type: object
+            required:
+              - value
+              - label
             properties:
               value:
                 type: string
@@ -7539,6 +7528,7 @@ components:
         - content_type
         - description
         - content_url
+        - author
         - created_on
         - digest
         - downloads
@@ -7560,12 +7550,12 @@ components:
         thumbnail_url:
           type: string
         author:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         created_on:
           type: string
           format: date-time
         version:
-          $ref: '#/components/schemas/id_name'
+          $ref: "#/components/schemas/id_name"
         digest:
           type: string
         downloads:
@@ -7612,4 +7602,4 @@ components:
             custom_fields:
               type: array
               items:
-                $ref: '#/components/schemas/custom_field_value'
+                $ref: "#/components/schemas/custom_field_value"

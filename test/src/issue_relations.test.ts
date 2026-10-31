@@ -1,4 +1,5 @@
 import { before, after, describe, test } from "node:test";
+import assert from "node:assert/strict";
 
 import { client, assertStatus } from "./helpers.js";
 
@@ -73,6 +74,35 @@ describe("Issue Relations", () => {
     );
     assertStatus(201, response);
     relationId = response.data!.relation.id;
+  });
+
+  test("GET /issues/{issue_id}.json includes a non-empty relations response", async () => {
+    const response = await client.GET("/issues/{issue_id}.{format}", {
+      params: {
+        path: { format: "json", issue_id: issueId1 },
+        query: { include: ["relations"] },
+      },
+    });
+    assertStatus(200, response);
+    assert(
+      response.data!.issue.relations?.some((relation) => relation.id === relationId),
+      "Expected the created relation in the issue detail"
+    );
+  });
+
+  test("GET /issues.json includes a non-empty relations response", async () => {
+    const response = await client.GET("/issues.{format}", {
+      params: {
+        path: { format: "json" },
+        query: { issue_id: String(issueId1), include: ["relations"] },
+      },
+    });
+    assertStatus(200, response);
+    const issue = response.data!.issues.find((item) => item.id === issueId1);
+    assert(
+      issue?.relations?.some((relation) => relation.id === relationId),
+      "Expected the created relation in the issue list"
+    );
   });
 
   test("GET /relations/{issue_relation_id}.json", async () => {

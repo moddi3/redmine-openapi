@@ -138,6 +138,7 @@ describe("Issues", () => {
       },
     });
     assertStatus(200, response);
+    assert.strictEqual(response.data!.issue.parent?.id, parentIssueId);
   });
 
   test("PUT /issues/{issue_id}.json", async () => {
@@ -195,6 +196,9 @@ describe("Issues", () => {
       params: { path: { format: "json" } },
     });
     assertStatus(200, response);
+    const issue = response.data!.issues.find((item) => item.id === issueId);
+    assert(issue, "Expected the created child issue in the issue list");
+    assert.strictEqual(issue.parent?.id, parentIssueId);
   });
 
   test("GET /issues.json with all includes", async () => {

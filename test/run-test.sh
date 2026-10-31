@@ -89,6 +89,16 @@ docker exec -i "$REDMINE_CONTAINER" rails runner - <<RUBY
     Role.create!(name: 'Developer', permissions: [:add_issues, :edit_issues, :view_issues, :manage_issue_relations, :add_issue_notes])
   end
 
+  # News comments have no API creation endpoint.
+  news_project = Project.find_by(identifier: 'news-comment-fixture') ||
+                 Project.create!(name: 'News Comment Fixture', identifier: 'news-comment-fixture')
+  news_project.enable_module!('news')
+  news = news_project.news.find_or_create_by!(title: 'News with a comment') do |entry|
+    entry.author = admin
+    entry.description = 'News comment response fixture'
+  end
+  news.comments.find_or_create_by!(author: admin, content: 'API comment fixture')
+
   # Custom fields for testing various field types
   tracker = Tracker.first
   unless IssueCustomField.find_by(name: 'CF String')
