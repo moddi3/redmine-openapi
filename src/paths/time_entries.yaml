@@ -244,6 +244,7 @@ post:
             - time_entry
           properties:
             time_entry:
+              description: Send `issue_id`, `project_id`, or both. With `issue_id` alone, the entry takes the issue's project. If both are sent and the issue belongs to another project, Redmine answers 422.
               type: object
               additionalProperties: false
               required:
