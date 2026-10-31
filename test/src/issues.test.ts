@@ -1,7 +1,17 @@
 import { before, after, describe, test } from "node:test";
 import assert from "node:assert/strict";
 
-import { client, assertStatus, uploadFile } from "./helpers.js";
+import {
+  client,
+  assertStatus,
+  uploadFile,
+  currentUserId,
+  someTrackerId,
+  someStatusId,
+  somePriorityId,
+  someRoleId,
+  type IssuesQuery,
+} from "./helpers.js";
 
 const createProject = async (options?: { trackerIds?: number[] }) => {
   const projectName = `issues-${Date.now()}`;
@@ -28,15 +38,33 @@ const deleteProject = async (projectId: number) => {
 
 describe("Issues", () => {
   let projectId: number;
+  let trackerId: number;
+  let userId: number;
+  let statusId: number;
+  let priorityId: number;
   let categoryId: number;
   let versionId: number;
   let parentIssueId: number;
   let uploadToken: string;
   let issueId: number;
+  let relationId: number;
 
   before(async () => {
-    const project = await createProject({ trackerIds: [1] });
+    trackerId = await someTrackerId();
+    userId = await currentUserId();
+    statusId = await someStatusId();
+    priorityId = await somePriorityId();
+    const project = await createProject({ trackerIds: [trackerId] });
     projectId = project.id;
+
+    const membershipResponse = await client.POST(
+      "/projects/{project_id}/memberships.{format}",
+      {
+        params: { path: { format: "json", project_id: projectId } },
+        body: { membership: { user_id: userId, role_ids: [await someRoleId()] } },
+      }
+    );
+    assertStatus(201, membershipResponse);
 
     const categoryResponse = await client.POST(
       "/projects/{project_id}/issue_categories.{format}",
@@ -61,7 +89,7 @@ describe("Issues", () => {
     const parentResponse = await client.POST("/issues.{format}", {
       params: { path: { format: "json" } },
       body: {
-        issue: { project_id: projectId, tracker_id: 1, subject: "parent" },
+        issue: { project_id: projectId, tracker_id: trackerId, subject: "parent" },
       },
     });
     assertStatus(201, parentResponse);
@@ -83,21 +111,21 @@ describe("Issues", () => {
       body: {
         issue: {
           project_id: projectId,
-          tracker_id: 1,
-          status_id: 1,
-          priority_id: 1,
+          tracker_id: trackerId,
+          status_id: statusId,
+          priority_id: priorityId,
           subject: "issue-1",
           description: "description",
           start_date: new Date().toISOString().slice(0, 10),
           due_date: new Date(Date.now() + 86400000).toISOString().slice(0, 10),
           done_ratio: 10,
-          assigned_to_id: 1,
+          assigned_to_id: userId,
           category_id: categoryId,
           fixed_version_id: versionId,
           parent_issue_id: parentIssueId,
           is_private: false,
           estimated_hours: 2,
-          watcher_user_ids: [1],
+          watcher_user_ids: [userId],
           custom_fields: [],
           custom_field_values: {},
           uploads: [
@@ -113,13 +141,40 @@ describe("Issues", () => {
     });
     assertStatus(201, response);
     issueId = response.data!.issue.id;
+    assert.strictEqual(response.data!.issue.assigned_to?.id, userId);
+    assert.strictEqual(response.data!.issue.category?.id, categoryId);
+    assert.strictEqual(response.data!.issue.fixed_version?.id, versionId);
+    assert.strictEqual(response.data!.issue.parent?.id, parentIssueId);
+  });
+
+  test("GET /issues/{issue_id}.json omits include-only fields without include", async () => {
+    const response = await client.GET("/issues/{issue_id}.{format}", {
+      params: { path: { format: "json", issue_id: issueId } },
+    });
+    assertStatus(200, response);
+    for (const field of ["children", "attachments", "relations", "changesets", "journals", "watchers", "allowed_statuses"]) {
+      assert(!Object.hasOwn(response.data!.issue, field), `Unexpected ${field} without include`);
+    }
   });
 
   test("GET /issues/{issue_id}.json with all includes", async () => {
-    await client.PUT("/issues/{issue_id}.{format}", {
+    const noteResponse = await client.PUT("/issues/{issue_id}.{format}", {
       params: { path: { format: "json", issue_id: issueId } },
       body: { issue: { notes: "journal-1" } },
     });
+    assertStatus(204, noteResponse);
+
+    const relatedResponse = await client.POST("/issues.{format}", {
+      params: { path: { format: "json" } },
+      body: { issue: { project_id: projectId, subject: "related issue" } },
+    });
+    assertStatus(201, relatedResponse);
+    const relationResponse = await client.POST("/issues/{issue_id}/relations.{format}", {
+      params: { path: { format: "json", issue_id: issueId } },
+      body: { relation: { issue_to_id: relatedResponse.data!.issue.id, relation_type: "relates" } },
+    });
+    assertStatus(201, relationResponse);
+    relationId = relationResponse.data!.relation.id;
 
     const response = await client.GET("/issues/{issue_id}.{format}", {
       params: {
@@ -138,11 +193,18 @@ describe("Issues", () => {
       },
     });
     assertStatus(200, response);
-    assert.strictEqual(response.data!.issue.parent?.id, parentIssueId);
+    const issue = response.data!.issue;
+    assert(!Object.hasOwn(issue, "children"), "Leaf issues omit children even with include=children");
+    assert(issue.attachments?.some((attachment) => attachment.filename === "attachment.txt"));
+    assert(issue.relations?.some((relation) => relation.id === relationId));
+    assert(Array.isArray(issue.changesets));
+    assert(issue.journals?.some((journal) => journal.notes === "journal-1"));
+    assert(issue.watchers?.some((watcher) => watcher.id === userId));
+    assert(Array.isArray(issue.allowed_statuses));
+    assert.strictEqual(issue.parent?.id, parentIssueId);
   });
 
   test("PUT /issues/{issue_id}.json", async () => {
-    // Get attachment ID for deleted_attachment_ids testing
     const getRes = await client.GET("/issues/{issue_id}.{format}", {
       params: {
         path: { format: "json", issue_id: issueId },
@@ -158,9 +220,9 @@ describe("Issues", () => {
       body: {
         issue: {
           project_id: projectId,
-          tracker_id: 1,
-          status_id: 1,
-          priority_id: 1,
+          tracker_id: trackerId,
+          status_id: statusId,
+          priority_id: priorityId,
           subject: "issue-1-updated",
           description: "updated description",
           start_date: new Date().toISOString().slice(0, 10),
@@ -168,7 +230,7 @@ describe("Issues", () => {
           done_ratio: 50,
           category_id: categoryId,
           fixed_version_id: versionId,
-          assigned_to_id: 1,
+          assigned_to_id: userId,
           parent_issue_id: parentIssueId,
           is_private: true,
           estimated_hours: 5,
@@ -189,11 +251,27 @@ describe("Issues", () => {
       },
     });
     assertStatus(204, response);
+
+    const readback = await client.GET("/issues/{issue_id}.{format}", {
+      params: {
+        path: { format: "json", issue_id: issueId },
+        query: { include: ["attachments", "journals"] },
+      },
+    });
+    assertStatus(200, readback);
+    const issue = readback.data!.issue;
+    assert.strictEqual(issue.subject, "issue-1-updated");
+    assert.strictEqual(issue.description, "updated description");
+    assert.strictEqual(issue.is_private, true);
+    assert.strictEqual(issue.estimated_hours, 5);
+    assert.strictEqual(issue.done_ratio, 50);
+    assert.deepStrictEqual(issue.attachments!.map((attachment) => attachment.filename), ["update-attachment.txt"]);
+    assert(issue.journals?.some((journal) => journal.notes === "note-1"));
   });
 
   test("GET /issues.json", async () => {
     const response = await client.GET("/issues.{format}", {
-      params: { path: { format: "json" } },
+      params: { path: { format: "json" }, query: { project_id: String(projectId), status_id: "*" } },
     });
     assertStatus(200, response);
     const issue = response.data!.issues.find((item) => item.id === issueId);
@@ -205,10 +283,14 @@ describe("Issues", () => {
     const response = await client.GET("/issues.{format}", {
       params: {
         path: { format: "json" },
-        query: { include: ["attachments", "relations"] },
+        query: { include: ["attachments", "relations"], issue_id: String(issueId), status_id: "*" },
       },
     });
     assertStatus(200, response);
+    const issue = response.data!.issues.find((issue) => issue.id === issueId);
+    assert(issue, "Expected a populated issue summary");
+    assert(issue.attachments?.some((attachment) => attachment.filename === "update-attachment.txt"));
+    assert(issue.relations?.some((relation) => relation.id === relationId));
   });
 
   test("GET /issues.json with filters", async () => {
@@ -218,7 +300,7 @@ describe("Issues", () => {
         query: {
           sort: "id:desc",
           status_id: "*",
-          tracker_id: "1",
+          tracker_id: String(trackerId),
           assigned_to_id: "me",
           subject: "issue",
           created_on: ">=2020-01-01",
@@ -235,15 +317,32 @@ describe("Issues", () => {
     assertStatus(200, response);
   });
 
-  test("GET /issues.json with pagination and nometa", async () => {
-    const response = await client.GET("/issues.{format}", {
-      params: {
-        path: { format: "json" },
-        query: { offset: 0, limit: 1, nometa: 1 },
-      },
+  for (const nometaIn of ["query", "header"] as const) {
+    test(`GET /issues.json with pagination and nometa ${nometaIn}`, async () => {
+      const page = { project_id: String(projectId), status_id: "*", sort: "id:asc", offset: 1, limit: 1 };
+      const withMeta = await client.GET("/issues.{format}", {
+        params: { path: { format: "json" }, query: page },
+      });
+      assertStatus(200, withMeta);
+      assert.deepStrictEqual(withMeta.data!.issues.map((issue) => issue.id), [issueId]);
+      assert.strictEqual(withMeta.data!.offset, 1);
+      assert.strictEqual(withMeta.data!.limit, 1);
+      assert.strictEqual(withMeta.data!.total_count, 3);
+
+      const response = await client.GET("/issues.{format}", {
+        params: {
+          path: { format: "json" },
+          query: nometaIn === "query" ? { ...page, nometa: 1 } : page,
+          header: nometaIn === "header" ? { "X-Redmine-Nometa": 1 } : undefined,
+        },
+      });
+      assertStatus(200, response);
+      assert.deepStrictEqual(response.data!.issues.map((issue) => issue.id), [issueId]);
+      for (const field of ["total_count", "offset", "limit"]) {
+        assert(!Object.hasOwn(response.data!, field), `Unexpected ${field} with nometa ${nometaIn}`);
+      }
     });
-    assertStatus(200, response);
-  });
+  }
 
   test("GET /issues.json with remaining filters", async () => {
     const cfResponse = await client.GET("/custom_fields.{format}", {
@@ -254,46 +353,49 @@ describe("Issues", () => {
       (cf) => cf.name === "CF String"
     )!.id;
 
+    const filters = {
+      project_id: String(projectId),
+      subproject_id: "!*",
+      priority_id: "*",
+      "author.group": "*",
+      "author.role": "*",
+      member_of_group: "*",
+      assigned_to_role: "*",
+      "fixed_version.due_date": "*",
+      "fixed_version.status": "*",
+      child_id: "*",
+      description: "~description",
+      notes: "~note",
+      updated_on: ">=2020-01-01",
+      closed_on: ">=2020-01-01",
+      start_date: ">=2020-01-01",
+      due_date: ">=2020-01-01",
+      estimated_hours: ">=0",
+      spent_time: ">=0",
+      attachment: "*",
+      attachment_description: "*",
+      watcher_id: "me",
+      updated_by: "me",
+      last_updated_by: "me",
+      "project.status": "1",
+      relates: "!*",
+      duplicates: "!*",
+      duplicated: "!*",
+      blocks: "!*",
+      blocked: "!*",
+      precedes: "!*",
+      follows: "!*",
+      copied_to: "!*",
+      copied_from: "!*",
+      any_searchable: "~test",
+      // form/explode serializes the map keys as actual query parameter names.
+      cf_x: { [`cf_${cfId}`]: "*" },
+    } satisfies IssuesQuery;
+
     const response = await client.GET("/issues.{format}", {
       params: {
         path: { format: "json" },
-        query: {
-          project_id: String(projectId),
-          subproject_id: "!*",
-          priority_id: "*",
-          "author.group": "*",
-          "author.role": "*",
-          member_of_group: "*",
-          assigned_to_role: "*",
-          "fixed_version.due_date": "*",
-          "fixed_version.status": "*",
-          child_id: "*",
-          description: "~description",
-          notes: "~note",
-          updated_on: ">=2020-01-01",
-          closed_on: ">=2020-01-01",
-          start_date: ">=2020-01-01",
-          due_date: ">=2020-01-01",
-          estimated_hours: ">=0",
-          spent_time: ">=0",
-          attachment: "*",
-          attachment_description: "*",
-          watcher_id: "me",
-          updated_by: "me",
-          last_updated_by: "me",
-          "project.status": "1",
-          relates: "!*",
-          duplicates: "!*",
-          duplicated: "!*",
-          blocks: "!*",
-          blocked: "!*",
-          precedes: "!*",
-          follows: "!*",
-          copied_to: "!*",
-          copied_from: "!*",
-          any_searchable: "~test",
-          [`cf_${cfId}`]: "*",
-        } as any,
+        query: filters,
       },
     });
     assertStatus(200, response);
@@ -386,9 +488,10 @@ describe("Issues", () => {
     const response = await client.POST("/issues.{format}", {
       params: { path: { format: "json" } },
       body: {
+        // @ts-expect-error Deliberately omit the required subject field.
         issue: {
           project_id: projectId,
-        } as any,
+        },
       },
     });
     assertStatus(422, response);
@@ -404,9 +507,9 @@ describe("Issues", () => {
         },
         body: {
           issue: {
-            tracker_id: 1,
-            status_id: 1,
-            priority_id: 1,
+            tracker_id: trackerId,
+            status_id: statusId,
+            priority_id: priorityId,
             subject: "project-scoped-issue",
             description: "created via project-scoped endpoint",
             start_date: new Date().toISOString().slice(0, 10),
@@ -414,11 +517,11 @@ describe("Issues", () => {
             done_ratio: 0,
             category_id: categoryId,
             fixed_version_id: versionId,
-            assigned_to_id: 1,
+            assigned_to_id: userId,
             parent_issue_id: parentIssueId,
             is_private: false,
             estimated_hours: 1,
-            watcher_user_ids: [1],
+            watcher_user_ids: [userId],
             custom_fields: [],
             custom_field_values: {},
             uploads: [
@@ -446,7 +549,7 @@ describe("Issues", () => {
             include: ["attachments", "relations"],
             sort: "id:desc",
             status_id: "*",
-            tracker_id: "1",
+            tracker_id: String(trackerId),
             offset: 0,
             limit: 25,
           },

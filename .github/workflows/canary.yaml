@@ -1,10 +1,6 @@
 name: Canary
 
-# Weekly check for new Redmine releases on Docker Hub (the regular CI is
-# pinned to a specific patch and cannot see them). The full test suite runs
-# only when a new patch of the pinned series appears; a newer series
-# (e.g. 6.2 or 7.0) is reported as an issue without running tests. Never
-# blocks the regular pipeline.
+# Test new patches of the pinned series; report newer series without testing.
 #
 # Tags are compared instead of image digests on purpose: official images
 # are rebuilt regularly, so the digest changes even when the version does not.
@@ -72,20 +68,19 @@ jobs:
     needs: check
     if: needs.check.outputs.new_patch == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .tool-versions
           cache: "npm"
-          cache-dependency-path: "test/package-lock.json"
       - name: Run tests against the new patch image
         env:
           REDMINE_IMAGE: redmine:${{ needs.check.outputs.latest }}
-        working-directory: test
         run: |
           npm ci
-          ./run-test.sh
+          ./test/run-test.sh
 
   report:
     needs:
@@ -132,7 +127,7 @@ jobs:
         run: |
           RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           TITLE="Canary: Redmine $NEW_SERIES_TAG is available (new series, pinned: $PINNED)"
-          BODY="Docker Hub now has \`redmine:$NEW_SERIES_TAG\`, a newer series than the pinned \`$PINNED\`. Supporting a new series is a scope decision, not a routine bump: main would move to the new series with a MAJOR version bump while the current series continues on a maintenance branch. No tests were run against it. Keep this issue open to suppress re-filing while the decision is pending. Workflow run: $RUN_URL"
+          BODY="Docker Hub now has \`redmine:$NEW_SERIES_TAG\`, a newer series than the pinned \`$PINNED\`. Supporting a new series is a scope decision, not a routine bump: main would move to the new series (first release: \`${NEW_SERIES_TAG}-r1\`) while the current series continues on a maintenance branch. No tests were run against it. Keep this issue open to suppress re-filing while the decision is pending. Workflow run: $RUN_URL"
           if gh issue list --state open --json title --jq '.[].title' | grep -Fxq "$TITLE"; then
             echo "Issue already open: $TITLE"
             exit 0

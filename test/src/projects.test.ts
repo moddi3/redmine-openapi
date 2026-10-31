@@ -1,25 +1,36 @@
 import { before, after, describe, test } from "node:test";
 import assert from "node:assert/strict";
 
-import { client, assertStatus } from "./helpers.js";
+import {
+  client,
+  assertStatus,
+  currentUserId,
+  runCleanup,
+  someTrackerId,
+} from "./helpers.js";
 
 describe("Projects", () => {
   let mainProjectId: number;
+  let mainProjectIdentifier: string;
   let postProjectId: number;
+  // These root projects survive deletion of mainProjectId and need separate cleanup.
+  let sharedProjectId: number;
+  let otherProjectId: number;
 
   before(async () => {
-    const projectName = `proj-${Date.now()}`;
+    const trackerId = await someTrackerId();
+    mainProjectIdentifier = `proj-${Date.now()}`;
     const response = await client.POST("/projects.{format}", {
       params: { path: { format: "json" } },
       body: {
         project: {
-          name: projectName,
-          identifier: projectName,
+          name: mainProjectIdentifier,
+          identifier: mainProjectIdentifier,
           description: "description",
           homepage: "http://example.com",
           is_public: true,
           inherit_members: false,
-          tracker_ids: [1],
+          tracker_ids: [trackerId],
           enabled_module_names: ["issue_tracking", "time_tracking"],
         },
       },
@@ -51,19 +62,65 @@ describe("Projects", () => {
       body: {
         project: {
           default_version_id: versionId,
-          default_assigned_to_id: 1,
+          default_assigned_to_id: await currentUserId(),
         },
       },
     });
     assertStatus(204, putResponse);
+
+    // Fixture for the "not archivable" test: a project cannot be archived while
+    // an issue from outside its tree is assigned to one of its shared versions
+    const ts = Date.now();
+    const sharedResponse = await client.POST("/projects.{format}", {
+      params: { path: { format: "json" } },
+      body: {
+        project: { name: `arch-shared-${ts}`, identifier: `arch-shared-${ts}` },
+      },
+    });
+    assertStatus(201, sharedResponse);
+    sharedProjectId = sharedResponse.data!.project.id;
+
+    const sharedVersionResponse = await client.POST(
+      "/projects/{project_id}/versions.{format}",
+      {
+        params: { path: { format: "json", project_id: sharedProjectId } },
+        body: { version: { name: "shared-version", sharing: "system" } },
+      }
+    );
+    assertStatus(201, sharedVersionResponse);
+
+    const otherResponse = await client.POST("/projects.{format}", {
+      params: { path: { format: "json" } },
+      body: {
+        project: { name: `arch-other-${ts}`, identifier: `arch-other-${ts}` },
+      },
+    });
+    assertStatus(201, otherResponse);
+    otherProjectId = otherResponse.data!.project.id;
+
+    const issueResponse = await client.POST("/issues.{format}", {
+      params: { path: { format: "json" } },
+      body: {
+        issue: {
+          project_id: otherProjectId,
+          subject: "issue on shared version",
+          fixed_version_id: sharedVersionResponse.data!.version.id,
+        },
+      },
+    });
+    assertStatus(201, issueResponse);
   });
 
   after(async () => {
-    if (mainProjectId) {
-      await client.DELETE("/projects/{project_id}.{format}", {
-        params: { path: { format: "json", project_id: mainProjectId } },
-      });
-    }
+    await runCleanup(
+      [otherProjectId, sharedProjectId, mainProjectId].map((id) => async () => {
+        if (!id) return;
+        const response = await client.DELETE("/projects/{project_id}.{format}", {
+          params: { path: { format: "json", project_id: id } },
+        });
+        assertStatus(204, response);
+      })
+    );
   });
 
   test("POST /projects.json", async () => {
@@ -79,7 +136,7 @@ describe("Projects", () => {
           is_public: false,
           parent_id: mainProjectId,
           inherit_members: true,
-          tracker_ids: [1],
+          tracker_ids: [await someTrackerId()],
           enabled_module_names: ["issue_tracking"],
           issue_custom_field_ids: [],
           default_issue_query_id: null,
@@ -108,6 +165,9 @@ describe("Projects", () => {
       },
     });
     assertStatus(200, response);
+    for (const field of ["trackers", "issue_categories", "time_entry_activities", "enabled_modules", "issue_custom_fields"] as const) {
+      assert(response.data!.project[field]?.length, `Expected populated ${field}`);
+    }
   });
 
   test("PUT /projects/{project_id}.json", async () => {
@@ -120,7 +180,7 @@ describe("Projects", () => {
           homepage: "http://example.com/updated",
           is_public: true,
           inherit_members: false,
-          tracker_ids: [1],
+          tracker_ids: [await someTrackerId()],
           enabled_module_names: ["issue_tracking", "time_tracking"],
           issue_custom_field_ids: [],
           identifier: "proj-updated",
@@ -132,6 +192,17 @@ describe("Projects", () => {
       },
     });
     assertStatus(204, response);
+
+    const getResponse = await client.GET("/projects/{project_id}.{format}", {
+      params: { path: { format: "json", project_id: mainProjectId } },
+    });
+    assertStatus(200, getResponse);
+    assert.strictEqual(getResponse.data!.project.name, "proj-updated");
+    assert.strictEqual(
+      getResponse.data!.project.identifier,
+      mainProjectIdentifier,
+      "Redmine ignores identifier on update; the original must be unchanged"
+    );
   });
 
   test("GET /projects.json with filters", async () => {
@@ -154,6 +225,7 @@ describe("Projects", () => {
       params: {
         path: { format: "json" },
         query: {
+          id: String(mainProjectId),
           include: [
             "trackers",
             "issue_categories",
@@ -165,6 +237,11 @@ describe("Projects", () => {
       },
     });
     assertStatus(200, response);
+    const project = response.data!.projects.find((project) => project.id === mainProjectId);
+    assert(project, "Expected a populated project summary");
+    for (const field of ["trackers", "issue_categories", "time_entry_activities", "enabled_modules", "issue_custom_fields"] as const) {
+      assert(project[field]?.length, `Expected populated ${field}`);
+    }
   });
 
   test("PUT /projects/{project_id}/close.json", async () => {
@@ -180,22 +257,21 @@ describe("Projects", () => {
   });
 
   test("GET /projects.json with multiple status values", async () => {
-    // Pipe-delimited multiple values: status=1|5 returns both active and closed projects
     const response = await client.GET("/projects.{format}", {
       params: {
         path: { format: "json" },
         query: {
           status: "1|5",
-          limit: 25,
+          id: `${mainProjectId}|${postProjectId}`,
         },
       },
     });
     assertStatus(200, response);
-    const projects = response.data!.projects;
-    const statuses = new Set(projects.map((p) => p.status));
-    assert(
-      statuses.has(5),
-      `Expected closed projects (status=5) in results, got statuses: ${[...statuses]}`
+    const statuses = new Set(response.data!.projects.map((p) => p.status));
+    assert.deepStrictEqual(
+      [...statuses].sort(),
+      [1, 5],
+      "Expected both the active and the closed project in the results"
     );
   });
 
@@ -330,49 +406,6 @@ describe("Projects", () => {
   });
 
   test("PUT /projects/{project_id}/archive.json returns 422 when not archivable", async () => {
-    // A project cannot be archived while an issue of a project outside its
-    // tree is assigned to one of its versions (system-wide sharing)
-    const ts = Date.now();
-    const sharedResponse = await client.POST("/projects.{format}", {
-      params: { path: { format: "json" } },
-      body: {
-        project: { name: `arch-shared-${ts}`, identifier: `arch-shared-${ts}` },
-      },
-    });
-    assertStatus(201, sharedResponse);
-    const sharedProjectId = sharedResponse.data!.project.id;
-
-    const versionResponse = await client.POST(
-      "/projects/{project_id}/versions.{format}",
-      {
-        params: { path: { format: "json", project_id: sharedProjectId } },
-        body: { version: { name: "shared-version", sharing: "system" } },
-      }
-    );
-    assertStatus(201, versionResponse);
-    const sharedVersionId = versionResponse.data!.version.id;
-
-    const otherResponse = await client.POST("/projects.{format}", {
-      params: { path: { format: "json" } },
-      body: {
-        project: { name: `arch-other-${ts}`, identifier: `arch-other-${ts}` },
-      },
-    });
-    assertStatus(201, otherResponse);
-    const otherProjectId = otherResponse.data!.project.id;
-
-    const issueResponse = await client.POST("/issues.{format}", {
-      params: { path: { format: "json" } },
-      body: {
-        issue: {
-          project_id: otherProjectId,
-          subject: "issue on shared version",
-          fixed_version_id: sharedVersionId,
-        },
-      },
-    });
-    assertStatus(201, issueResponse);
-
     const response = await client.PUT(
       "/projects/{project_id}/archive.{format}",
       {
@@ -380,13 +413,6 @@ describe("Projects", () => {
       }
     );
     assertStatus(422, response);
-
-    await client.DELETE("/projects/{project_id}.{format}", {
-      params: { path: { format: "json", project_id: otherProjectId } },
-    });
-    await client.DELETE("/projects/{project_id}.{format}", {
-      params: { path: { format: "json", project_id: sharedProjectId } },
-    });
   });
 
   test("DELETE /projects/{project_id}.json", async () => {

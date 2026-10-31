@@ -1,9 +1,5 @@
 name: Release
 
-# Creates a GitHub Release when a release tag (e.g. 6.1.3-r2) is pushed, then
-# publishes the docs site so it always matches the latest release. Tags not on
-# main (maintenance lines) are released with --latest=false and skip the docs
-# jobs.
 on:
   push:
     tags:
@@ -16,6 +12,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
     steps:
@@ -25,7 +22,9 @@ jobs:
           fetch-tags: true
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .tool-versions
+          cache: "npm"
+      - run: npm ci
 
       - name: Verify tag format
         run: |
@@ -45,8 +44,10 @@ jobs:
 
       - name: Verify bundle freshness
         run: |
-          npx @redocly/cli@latest bundle --config redocly/redocly.yaml dist -o /tmp/fresh.yaml
-          if ! diff -u openapi.yaml /tmp/fresh.yaml; then
+          # git diff cannot see an untracked file, so require it to be tracked
+          git ls-files --error-unmatch openapi.yaml
+          npm run bundle
+          if ! git diff --exit-code -- openapi.yaml; then
             echo "::error::Committed openapi.yaml does not match a fresh bundle of src/. Tag a commit where the bundle is up to date."
             exit 1
           fi
@@ -100,6 +101,9 @@ jobs:
               exit 1
             fi
           fi
+
+      - name: Validate API spec against the pinned Redmine
+        run: ./test/run-test.sh
 
       - name: Detect breaking changes
         id: breaking
@@ -186,7 +190,10 @@ jobs:
       - uses: actions/setup-node@v7
         if: steps.guard.outputs.deploy == 'true'
         with:
-          node-version: 24
+          node-version-file: .tool-versions
+          cache: "npm"
+      - run: npm ci
+        if: steps.guard.outputs.deploy == 'true'
       - uses: actions/configure-pages@v6
         if: steps.guard.outputs.deploy == 'true'
         id: setup
@@ -195,7 +202,7 @@ jobs:
         run: |
           mkdir dist
           cp -r redocly/assets/* dist
-          npx @redocly/cli@latest build-docs --config redocly/redocly.yaml dist -t redocly/build-docs-template.hbs --templateOptions.basePath "${{ steps.setup.outputs.base_path }}" -o dist/index.html
+          npm run docs -- --templateOptions.basePath "${{ steps.setup.outputs.base_path }}"
           cat > dist/sitemap.xml <<EOT
           <?xml version="1.0" encoding="UTF-8"?>
           <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

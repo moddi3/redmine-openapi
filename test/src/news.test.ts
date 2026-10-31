@@ -1,7 +1,7 @@
 import { before, after, describe, test } from "node:test";
 import assert from "node:assert/strict";
 
-import { client, assertStatus, uploadFile } from "./helpers.js";
+import { client, assertStatus, currentUserId, uploadFile } from "./helpers.js";
 
 describe("News", () => {
   const projectIdentifier = `news-${Date.now()}`;
@@ -25,9 +25,10 @@ describe("News", () => {
 
   after(async () => {
     if (projectId) {
-      await client.DELETE("/projects/{project_id}.{format}", {
+      const response = await client.DELETE("/projects/{project_id}.{format}", {
         params: { path: { format: "json", project_id: projectId } },
       });
+      assertStatus(204, response);
     }
   });
 
@@ -67,7 +68,9 @@ describe("News", () => {
       }
     );
     assertStatus(200, listResponse);
-    newsId = listResponse.data!.news[0].id;
+    const news = listResponse.data!.news[0];
+    assert(news, "Expected the created news entry in the project's list");
+    newsId = news.id;
   });
 
   test("GET /news/{news_id}.json with all includes", async () => {
@@ -80,35 +83,36 @@ describe("News", () => {
       },
     });
     assertStatus(200, response);
-    assert.deepEqual(response.data!.news.comments, []);
+    assert.strictEqual(
+      response.data!.news.attachments?.length,
+      1,
+      "Expected the uploaded attachment in include=attachments"
+    );
+    assert.deepStrictEqual(response.data!.news.comments, []);
   });
 
-  test("GET /news/{news_id}.json includes a non-empty comments response", async () => {
-    const project = await client.GET("/projects/{project_id}.{format}", {
-      params: { path: { format: "json", project_id: "news-comment-fixture" } },
+  test("GET /news/{news_id}.json with include=comments returns the seeded comment", async () => {
+    const list = await client.GET("/projects/{project_id}/news.{format}", {
+      params: {
+        path: { format: "json", project_id: "news-comment-fixture" },
+      },
     });
-    assertStatus(200, project);
-    const news = await client.GET("/projects/{project_id}/news.{format}", {
-      params: { path: { format: "json", project_id: project.data!.project.id } },
-    });
-    assertStatus(200, news);
-    const fixture = news.data!.news.find(
-      (item) => item.title === "News with a comment"
-    );
-    assert(fixture, "Expected the seeded news comment fixture");
+    assertStatus(200, list);
+    const news = list.data!.news.find((item) => item.title === "News with a comment");
+    assert(news, "Expected the news comment fixture");
 
     const response = await client.GET("/news/{news_id}.{format}", {
       params: {
-        path: { format: "json", news_id: fixture.id },
+        path: { format: "json", news_id: news.id },
         query: { include: ["comments"] },
       },
     });
     assertStatus(200, response);
-    const comments = response.data!.news.comments;
-    assert(
-      comments && comments.length > 0,
-      "Expected a non-empty comments response"
+    const comment = response.data!.news.comments?.find(
+      (item) => item.content === "API comment fixture"
     );
+    assert(comment, "Expected a populated news comment");
+    assert.strictEqual(comment.author.id, await currentUserId());
   });
 
   test("PUT /news/{news_id}.json", async () => {
@@ -134,6 +138,19 @@ describe("News", () => {
       },
     });
     assertStatus(204, response);
+
+    const readback = await client.GET("/news/{news_id}.{format}", {
+      params: {
+        path: { format: "json", news_id: newsId },
+        query: { include: ["attachments"] },
+      },
+    });
+    assertStatus(200, readback);
+    const news = readback.data!.news;
+    assert.strictEqual(news.title, "news-1-updated");
+    assert.strictEqual(news.summary, "summary-1-updated");
+    assert.strictEqual(news.description, "description-1-updated");
+    assert(news.attachments?.some((attachment) => attachment.filename === "news-update-attachment.txt"));
   });
 
   test("GET /news.json with pagination", async () => {

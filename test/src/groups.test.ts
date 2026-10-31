@@ -1,40 +1,35 @@
 import { before, after, describe, test } from "node:test";
 import assert from "node:assert/strict";
 
-import { client, assertStatus } from "./helpers.js";
+import { client, assertStatus, createTestUser, runCleanup } from "./helpers.js";
 
 describe("Groups", () => {
-  let userId: number;
   let groupId: number;
+  let userId: number;
+  let extraUserId: number;
 
   before(async () => {
-    const userResponse = await client.POST("/users.{format}", {
-      params: { path: { format: "json" } },
-      body: {
-        user: {
-          login: `grpuser-${Date.now()}`,
-          firstname: "Group",
-          lastname: "User",
-          mail: `grpuser-${Date.now()}@example.com`,
-          password: "password123!",
-        },
-      },
-    });
-    assertStatus(201, userResponse);
-    userId = userResponse.data!.user.id;
+    userId = await createTestUser("grpuser");
+    extraUserId = await createTestUser("grpuser2");
   });
 
   after(async () => {
-    if (groupId) {
-      await client.DELETE("/groups/{group_id}.{format}", {
-        params: { path: { format: "json", group_id: groupId } },
-      });
-    }
-    if (userId) {
-      await client.DELETE("/users/{user_id}.{format}", {
-        params: { path: { format: "json", user_id: userId } },
-      });
-    }
+    await runCleanup([
+      async () => {
+        if (!groupId) return;
+        const response = await client.DELETE("/groups/{group_id}.{format}", {
+          params: { path: { format: "json", group_id: groupId } },
+        });
+        assertStatus(204, response);
+      },
+      ...[userId, extraUserId].map((id) => async () => {
+        if (!id) return;
+        const response = await client.DELETE("/users/{user_id}.{format}", {
+          params: { path: { format: "json", user_id: id } },
+        });
+        assertStatus(204, response);
+      }),
+    ]);
   });
 
   test("POST /groups.json", async () => {
@@ -62,14 +57,17 @@ describe("Groups", () => {
       },
     });
     assertStatus(200, response);
+    assert.deepStrictEqual(response.data!.group.users!.map((user) => user.id), [userId]);
+    assert(Array.isArray(response.data!.group.memberships));
   });
 
   test("PUT /groups/{group_id}.json", async () => {
+    const name = `test-group-updated-${Date.now()}`;
     const response = await client.PUT("/groups/{group_id}.{format}", {
       params: { path: { format: "json", group_id: groupId } },
       body: {
         group: {
-          name: `test-group-updated-${Date.now()}`,
+          name,
           user_ids: [userId],
           twofa_required: false,
           custom_fields: [],
@@ -78,36 +76,24 @@ describe("Groups", () => {
       },
     });
     assertStatus(204, response);
+
+    const readback = await client.GET("/groups/{group_id}.{format}", {
+      params: { path: { format: "json", group_id: groupId }, query: { include: ["users"] } },
+    });
+    assertStatus(200, readback);
+    assert.strictEqual(readback.data!.group.name, name);
+    assert.deepStrictEqual(readback.data!.group.users!.map((user) => user.id), [userId]);
   });
 
   test("POST /groups/{group_id}/users.json (add user)", async () => {
-    const newUserResponse = await client.POST("/users.{format}", {
-      params: { path: { format: "json" } },
-      body: {
-        user: {
-          login: `grpuser2-${Date.now()}`,
-          firstname: "Group2",
-          lastname: "User2",
-          mail: `grpuser2-${Date.now()}@example.com`,
-          password: "password123!",
-        },
-      },
-    });
-    assertStatus(201, newUserResponse);
-    const newUserId = newUserResponse.data!.user.id;
-
     const response = await client.POST(
       "/groups/{group_id}/users.{format}",
       {
         params: { path: { format: "json", group_id: groupId } },
-        body: { user_id: newUserId },
+        body: { user_id: extraUserId },
       }
     );
     assertStatus(204, response);
-
-    await client.DELETE("/users/{user_id}.{format}", {
-      params: { path: { format: "json", user_id: newUserId } },
-    });
   });
 
   test("DELETE /groups/{group_id}/users/{user_id}.json (remove user)", async () => {
@@ -127,6 +113,11 @@ describe("Groups", () => {
       params: { path: { format: "json" } },
     });
     assertStatus(200, response);
+    assert(
+      response.data!.groups.some((group) => group.id === groupId),
+      "Expected the created group in the list"
+    );
+    assert(response.data!.groups.every((group) => !Object.hasOwn(group, "builtin")));
   });
 
   test("GET /groups.json with builtin", async () => {
@@ -137,6 +128,11 @@ describe("Groups", () => {
       },
     });
     assertStatus(200, response);
+    assert.deepStrictEqual(
+      response.data!.groups.filter((group) => group.builtin).map((group) => group.builtin).sort(),
+      ["anonymous", "non_member"]
+    );
+    assert(response.data!.groups.some((group) => group.id === groupId));
   });
 
   test("POST /groups/{group_id}/users.json returns 422 for a user already in the group", async () => {
@@ -162,7 +158,7 @@ describe("Groups", () => {
     });
     assertStatus(200, response);
     assert(
-      response.data!.user.groups!.some((g) => g.id === groupId),
+      response.data!.user.groups!.some((group) => group.id === groupId),
       "Expected the user to belong to the group"
     );
   });

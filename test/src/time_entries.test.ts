@@ -1,14 +1,24 @@
 import { before, after, describe, test } from "node:test";
+import assert from "node:assert/strict";
 
-import { client, assertStatus } from "./helpers.js";
+import {
+  client,
+  assertStatus,
+  currentUserId,
+  someTrackerId,
+} from "./helpers.js";
 
 describe("Time Entries", () => {
   let projectId: number;
   let issueId: number;
   let activityId: number;
   let timeEntryId: number;
+  let trackerId: number;
+  let userId: number;
 
   before(async () => {
+    trackerId = await someTrackerId();
+    userId = await currentUserId();
     const projectName = `time-${Date.now()}`;
     const projectResponse = await client.POST("/projects.{format}", {
       params: { path: { format: "json" } },
@@ -28,7 +38,7 @@ describe("Time Entries", () => {
       body: {
         issue: {
           project_id: projectId,
-          tracker_id: 1,
+          tracker_id: trackerId,
           subject: "issue-1",
         },
       },
@@ -46,9 +56,10 @@ describe("Time Entries", () => {
 
   after(async () => {
     if (projectId) {
-      await client.DELETE("/projects/{project_id}.{format}", {
+      const response = await client.DELETE("/projects/{project_id}.{format}", {
         params: { path: { format: "json", project_id: projectId } },
       });
+      assertStatus(204, response);
     }
   });
 
@@ -63,7 +74,7 @@ describe("Time Entries", () => {
           activity_id: activityId,
           comments: "entry-1",
           spent_on: new Date().toISOString().slice(0, 10),
-          user_id: 1,
+          user_id: userId,
           custom_fields: [],
           custom_field_values: {},
         },
@@ -71,6 +82,9 @@ describe("Time Entries", () => {
     });
     assertStatus(201, response);
     timeEntryId = response.data!.time_entry.id;
+    assert.strictEqual(response.data!.time_entry.hours, 1.5);
+    assert.strictEqual(response.data!.time_entry.issue?.id, issueId);
+    assert.strictEqual(response.data!.time_entry.user?.id, userId);
   });
 
   test("GET /time_entries/{time_entry_id}.json", async () => {
@@ -100,7 +114,7 @@ describe("Time Entries", () => {
             hours: 2.5,
             activity_id: activityId,
             comments: "entry-1-updated",
-            user_id: 1,
+            user_id: userId,
             custom_fields: [],
             custom_field_values: {},
           },
@@ -108,13 +122,24 @@ describe("Time Entries", () => {
       }
     );
     assertStatus(204, response);
+
+    const readback = await client.GET("/time_entries/{time_entry_id}.{format}", {
+      params: { path: { format: "json", time_entry_id: timeEntryId } },
+    });
+    assertStatus(200, readback);
+    assert.strictEqual(readback.data!.time_entry.hours, 2.5);
+    assert.strictEqual(readback.data!.time_entry.comments, "entry-1-updated");
   });
 
-  test("GET /time_entries.json", async () => {
+  test("GET /time_entries.json with project filters", async () => {
     const response = await client.GET("/time_entries.{format}", {
-      params: { path: { format: "json" } },
+      params: {
+        path: { format: "json" },
+        query: { project_id: String(projectId), "project.status": "1" },
+      },
     });
     assertStatus(200, response);
+    assert(response.data!.time_entries.some((entry) => entry.id === timeEntryId));
   });
 
   test("GET /time_entries.json with filters", async () => {
@@ -153,7 +178,7 @@ describe("Time Entries", () => {
             activity_id: activityId,
             comments: "project-scoped-entry",
             spent_on: new Date().toISOString().slice(0, 10),
-            user_id: 1,
+            user_id: userId,
             custom_fields: [],
             custom_field_values: {},
           },
@@ -171,7 +196,7 @@ describe("Time Entries", () => {
           path: { format: "json", project_id: projectId },
           query: {
             spent_on: ">=2020-01-01",
-            user_id: "1",
+            user_id: String(userId),
             activity_id: String(activityId),
             sort: "spent_on:desc",
             offset: 0,
@@ -197,7 +222,7 @@ describe("Time Entries", () => {
             project_id: projectId,
             comments: "issue-scoped-entry",
             spent_on: new Date().toISOString().slice(0, 10),
-            user_id: 1,
+            user_id: userId,
             custom_fields: [],
             custom_field_values: {},
           },
@@ -215,7 +240,7 @@ describe("Time Entries", () => {
           project_id: String(projectId),
           subproject_id: "!*",
           issue_id: String(issueId),
-          "issue.tracker_id": "1",
+          "issue.tracker_id": String(trackerId),
           "issue.status_id": "*",
           "issue.fixed_version_id": "!*",
           "issue.category_id": "!*",
@@ -232,7 +257,8 @@ describe("Time Entries", () => {
   test("POST /time_entries.json returns 422 for invalid data", async () => {
     const response = await client.POST("/time_entries.{format}", {
       params: { path: { format: "json" } },
-      body: { time_entry: { issue_id: issueId } as any },
+      // @ts-expect-error Deliberately omit the required hours field.
+      body: { time_entry: { issue_id: issueId } },
     });
     assertStatus(422, response);
   });
@@ -305,7 +331,8 @@ describe("Time Entries", () => {
       "/projects/{project_id}/time_entries.{format}",
       {
         params: { path: { format: "json", project_id: projectId } },
-        body: { time_entry: {} as any },
+        // @ts-expect-error Deliberately omit the required hours field.
+        body: { time_entry: {} },
       }
     );
     assertStatus(422, response);
@@ -327,7 +354,8 @@ describe("Time Entries", () => {
       "/issues/{issue_id}/time_entries.{format}",
       {
         params: { path: { format: "json", issue_id: issueId } },
-        body: { time_entry: {} as any },
+        // @ts-expect-error Deliberately omit the required hours field.
+        body: { time_entry: {} },
       }
     );
     assertStatus(422, response);

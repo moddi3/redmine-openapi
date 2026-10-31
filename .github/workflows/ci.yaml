@@ -3,20 +3,26 @@ name: CI
 on:
   push:
     paths:
-      - ".github/workflows/ci.yaml"
+      - ".github/workflows/**"
       - "src/**"
       - "redocly/**"
       - "test/**"
+      - ".tool-versions"
+      - "package.json"
+      - "package-lock.json"
     tags-ignore:
       - "**"
     branches:
       - "**"
   pull_request:
     paths:
-      - ".github/workflows/ci.yaml"
+      - ".github/workflows/**"
       - "src/**"
       - "redocly/**"
       - "test/**"
+      - ".tool-versions"
+      - "package.json"
+      - "package-lock.json"
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -25,41 +31,49 @@ concurrency:
 jobs:
   bundle:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .tool-versions
+          cache: "npm"
+      - run: npm ci
       - name: bundle
-        run: npx @redocly/cli@latest bundle --config redocly/redocly.yaml dist -o openapi.yaml
+        run: npm run bundle
       - name: lint
-        run: npx @redocly/cli@latest lint --config redocly/redocly.yaml openapi.yaml
+        run: npm run lint
       - uses: actions/upload-artifact@v7
         with:
           name: openapi
           path: openapi.yaml
 
-  test:
+  # Surface static errors without waiting for Redmine startup.
+  static:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .tool-versions
           cache: "npm"
-          cache-dependency-path: "test/package-lock.json"
       - run: npm ci
-        working-directory: test
-      - name: summary/detail schema sync
-        run: node check-summary-detail-sync.mjs
-        working-directory: test
-      - run: ./run-test.sh
-        working-directory: test
-      - name: type check
-        run: npx tsc --noEmit
-        working-directory: test
+      - run: ./test/check.sh
 
-  # Informational: show changes against the latest release tag (never fails the build)
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .tool-versions
+          cache: "npm"
+      - run: npm ci
+      - name: static checks, integration tests and API coverage
+        run: ./test/run-test.sh
+
   spec-diff:
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -70,7 +84,9 @@ jobs:
           fetch-tags: true
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .tool-versions
+          cache: "npm"
+      - run: npm ci
       - name: oasdiff changelog against latest release tag
         run: |
           # Nearest release tag among the ancestors of HEAD (branch-aware).
@@ -81,7 +97,7 @@ jobs:
             exit 0
           fi
           git show "$PREV_TAG:openapi.yaml" > /tmp/previous.yaml
-          npx @redocly/cli@latest bundle --config redocly/redocly.yaml dist -o openapi.yaml
+          npm run bundle
           {
             echo "## oasdiff changelog vs \`$PREV_TAG\`"
             echo '```'
@@ -93,6 +109,7 @@ jobs:
     if: github.event_name == 'push'
     needs:
       - bundle
+      - static
       - test
     runs-on: ubuntu-latest
     steps:

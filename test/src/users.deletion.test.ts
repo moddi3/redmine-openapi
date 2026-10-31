@@ -1,7 +1,14 @@
 import { before, after, describe, test } from "node:test";
 import assert from "node:assert/strict";
 
-import { client, assertStatus } from "./helpers.js";
+import {
+  client,
+  createTestClient,
+  createTestUser,
+  assertStatus,
+  runCleanup,
+  someTrackerId,
+} from "./helpers.js";
 
 describe("Responses after user deletion", () => {
   let projectId: number;
@@ -11,12 +18,6 @@ describe("Responses after user deletion", () => {
   let timeEntryId: number;
 
   before(async () => {
-    const trackers = await client.GET("/trackers.{format}", {
-      params: { path: { format: "json" } },
-    });
-    assertStatus(200, trackers);
-    const tracker = trackers.data!.trackers[0];
-    assert(tracker, "Expected at least one tracker");
     const name = `deleted-user-${Date.now()}`;
     const project = await client.POST("/projects.{format}", {
       params: { path: { format: "json" } },
@@ -25,45 +26,33 @@ describe("Responses after user deletion", () => {
           name,
           identifier: name,
           enabled_module_names: ["issue_tracking", "time_tracking"],
-          tracker_ids: [tracker.id],
+          tracker_ids: [await someTrackerId()],
         },
       },
     });
     assertStatus(201, project);
     projectId = project.data!.project.id;
 
-    const login = `deleted-author-${Date.now()}`;
-    const author = await client.POST("/users.{format}", {
-      params: { path: { format: "json" } },
-      body: {
-        user: {
-          login,
-          firstname: "Deleted",
-          lastname: "Author",
-          mail: `${login}@example.com`,
-          password: "password123!",
-          admin: true,
-        },
-      },
+    authorId = await createTestUser("deleted-author", { admin: true });
+    const author = await client.GET("/users/{user_id}.{format}", {
+      params: { path: { format: "json", user_id: authorId } },
     });
-    assertStatus(201, author);
-    authorId = author.data!.user.id;
-    const authorHeaders = { "X-Redmine-Switch-User": login };
+    assertStatus(200, author);
+    const actor = createTestClient(author.data!.user.login);
 
-    const upload = await client.POST("/uploads.{format}", {
+    const upload = await actor.POST("/uploads.{format}", {
       params: {
         path: { format: "json" },
         query: { filename: "deleted-author.txt" },
       },
-      headers: { ...authorHeaders, "Content-Type": "application/octet-stream" },
+      headers: { "Content-Type": "application/octet-stream" },
       body: "attachment content",
       bodySerializer: (body) => body,
     });
     assertStatus(201, upload);
 
-    const issue = await client.POST("/issues.{format}", {
+    const issue = await actor.POST("/issues.{format}", {
       params: { path: { format: "json" } },
-      headers: authorHeaders,
       body: {
         issue: {
           project_id: projectId,
@@ -96,9 +85,8 @@ describe("Responses after user deletion", () => {
     assertStatus(200, activities);
     const activity = activities.data!.time_entry_activities[0];
     assert(activity, "Expected at least one time entry activity");
-    const entry = await client.POST("/time_entries.{format}", {
+    const entry = await actor.POST("/time_entries.{format}", {
       params: { path: { format: "json" } },
-      headers: authorHeaders,
       body: {
         time_entry: {
           project_id: projectId,
@@ -114,21 +102,22 @@ describe("Responses after user deletion", () => {
   });
 
   after(async () => {
-    try {
-      if (projectId) {
+    await runCleanup([
+      async () => {
+        if (!projectId) return;
         const response = await client.DELETE("/projects/{project_id}.{format}", {
           params: { path: { format: "json", project_id: projectId } },
         });
         assertStatus(204, response);
-      }
-    } finally {
-      if (authorId !== undefined) {
+      },
+      async () => {
+        if (authorId === undefined) return;
         const response = await client.DELETE("/users/{user_id}.{format}", {
           params: { path: { format: "json", user_id: authorId } },
         });
         assertStatus(204, response);
-      }
-    }
+      },
+    ]);
   });
 
   test("required user references remain present after user deletion", async () => {

@@ -1,4 +1,5 @@
 import { before, after, describe, test } from "node:test";
+import assert from "node:assert/strict";
 
 import { client, assertStatus } from "./helpers.js";
 
@@ -24,9 +25,10 @@ describe("Versions", () => {
 
   after(async () => {
     if (projectId) {
-      await client.DELETE("/projects/{project_id}.{format}", {
+      const response = await client.DELETE("/projects/{project_id}.{format}", {
         params: { path: { format: "json", project_id: projectId } },
       });
+      assertStatus(204, response);
     }
   });
 
@@ -85,6 +87,17 @@ describe("Versions", () => {
       },
     });
     assertStatus(204, response);
+
+    const readback = await client.GET("/versions/{version_id}.{format}", {
+      params: { path: { format: "json", version_id: versionId } },
+    });
+    assertStatus(200, readback);
+    const version = readback.data!.version;
+    assert.strictEqual(version.name, "v1.0-updated");
+    assert.strictEqual(version.description, "Updated release");
+    assert.strictEqual(version.status, "closed");
+    assert.strictEqual(version.sharing, "descendants");
+    assert.strictEqual(version.due_date, "2027-01-31");
   });
 
   test("GET /projects/{project_id}/versions.json", async () => {
@@ -97,6 +110,17 @@ describe("Versions", () => {
       }
     );
     assertStatus(200, response);
+    assert(response.data!.versions.some((version) => version.id === versionId));
+  });
+
+  test("GET /projects/{project_id}/versions.json returns 404 for nonexistent project", async () => {
+    const response = await client.GET(
+      "/projects/{project_id}/versions.{format}",
+      {
+        params: { path: { format: "json", project_id: "nonexistent-project" } },
+      }
+    );
+    assertStatus(404, response);
   });
 
   test("POST /projects/{project_id}/versions.json returns 404 for nonexistent project", async () => {
@@ -152,8 +176,7 @@ describe("Versions", () => {
   });
 
   test("DELETE /versions/{version_id}.json returns 422 when not deletable", async () => {
-    // A version with issues assigned to it cannot be deleted;
-    // Redmine responds 422 with an empty body
+    // A version with issues assigned to it cannot be deleted.
     const versionResponse = await client.POST(
       "/projects/{project_id}/versions.{format}",
       {
@@ -175,19 +198,11 @@ describe("Versions", () => {
       },
     });
     assertStatus(201, issueResponse);
-    const issueId = issueResponse.data!.issue.id;
 
     const response = await client.DELETE("/versions/{version_id}.{format}", {
       params: { path: { format: "json", version_id: inUseVersionId } },
     });
     assertStatus(422, response);
-
-    await client.DELETE("/issues/{issue_id}.{format}", {
-      params: { path: { format: "json", issue_id: issueId } },
-    });
-    await client.DELETE("/versions/{version_id}.{format}", {
-      params: { path: { format: "json", version_id: inUseVersionId } },
-    });
   });
 
   test("DELETE /versions/{version_id}.json", async () => {

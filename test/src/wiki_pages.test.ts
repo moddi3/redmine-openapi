@@ -24,9 +24,10 @@ describe("Wiki Pages", () => {
 
   after(async () => {
     if (projectId) {
-      await client.DELETE("/projects/{project_id}.{format}", {
+      const response = await client.DELETE("/projects/{project_id}.{format}", {
         params: { path: { format: "json", project_id: projectId } },
       });
+      assertStatus(204, response);
     }
   });
 
@@ -59,6 +60,10 @@ describe("Wiki Pages", () => {
       }
     );
     assertStatus(201, response);
+    assert.strictEqual(response.data!.wiki_page.version, 1);
+    assert.strictEqual(response.data!.wiki_page.text, "Wiki page content from API");
+    assert.strictEqual(response.data!.wiki_page.comments, "Initial creation");
+    assert(!Object.hasOwn(response.data!.wiki_page, "parent"));
   });
 
   test("PUT /projects/{project_id}/wiki/{wiki_page_title}.json (create with parent)", async () => {
@@ -82,6 +87,7 @@ describe("Wiki Pages", () => {
       }
     );
     assertStatus(201, response);
+    assert.deepStrictEqual(response.data!.wiki_page.parent, { title: "TestPage" });
   });
 
   test("PUT /projects/{project_id}/wiki/{wiki_page_title}.json (update)", async () => {
@@ -123,6 +129,12 @@ describe("Wiki Pages", () => {
       }
     );
     assertStatus(200, response);
+
+    const wikiPage = response.data!.wiki_page;
+    assert.strictEqual(wikiPage.version, 2);
+    assert.strictEqual(wikiPage.text, "Updated wiki page content");
+    assert.strictEqual(wikiPage.comments, "Updated via API");
+    assert(wikiPage.attachments?.some((attachment) => attachment.filename === "wiki-attachment.txt"));
   });
 
   test("GET /projects/{project_id}/wiki/{wiki_page_title}/{version_id}.json", async () => {
@@ -143,6 +155,9 @@ describe("Wiki Pages", () => {
       }
     );
     assertStatus(200, response);
+    assert.strictEqual(response.data!.wiki_page.version, 1);
+    assert.strictEqual(response.data!.wiki_page.text, "Wiki page content from API");
+    assert.strictEqual(response.data!.wiki_page.comments, "Initial creation");
   });
 
   test("PUT /projects/{project_id}/wiki/{wiki_page_title}.json returns 409 on version conflict", async () => {
@@ -241,10 +256,8 @@ describe("Wiki Pages", () => {
     );
     assertStatus(201, createResponse);
 
-    // With the redirect left enabled the old title would answer with a 302
-    // canonical redirect, which the spec does not model. Only the string "0"
-    // disables it (Redmine compares against the form value), making the old
-    // title a clean 404
+    // Redmine requires the string "0" to disable the old title's redirect,
+    // letting the old-title request below exercise 404.
     const renameResponse = await client.PUT(
       "/projects/{project_id}/wiki/{wiki_page_title}.{format}",
       {
@@ -297,6 +310,7 @@ describe("Wiki Pages", () => {
   });
 
   test("PUT /projects/{project_id}/wiki/{wiki_page_title}.json (set start page)", async () => {
+    // No API response exposes the start page, so only the status can be checked.
     const response = await client.PUT(
       "/projects/{project_id}/wiki/{wiki_page_title}.{format}",
       {
@@ -328,6 +342,12 @@ describe("Wiki Pages", () => {
       }
     );
     assertStatus(200, response);
+
+    const pages = response.data!.wiki_pages;
+    assert(pages.length > 0, "Expected the created wiki pages to be listed");
+    const child = pages.find((page) => page.title === "ChildPage");
+    assert(child, "Expected the created child page in the wiki index");
+    assert.deepStrictEqual(child.parent, { title: "TestPage" });
   });
 
   test("GET /projects/{project_id}/wiki/index.json returns 404 for nonexistent project", async () => {
@@ -391,9 +411,6 @@ describe("Wiki Pages", () => {
   });
 
   test("PUT /projects/{project_id}/wiki/{wiki_page_title}.json returns 422 for invalid data", async () => {
-    // A nonexistent parent page fails the WikiPage parent validation.
-    // Note: omitting text does NOT return 422 — Redmine 6.1 skips the
-    // content save entirely and creates a broken content-less page (201)
     const response = await client.PUT(
       "/projects/{project_id}/wiki/{wiki_page_title}.{format}",
       {

@@ -1,7 +1,13 @@
 import { before, after, describe, test } from "node:test";
 import assert from "node:assert/strict";
 
-import { client, assertStatus } from "./helpers.js";
+import {
+  client,
+  assertStatus,
+  currentUserId,
+  someRoleId,
+  someTrackerId,
+} from "./helpers.js";
 
 describe("Custom Fields", async () => {
   test("GET /custom_fields.json", async () => {
@@ -13,21 +19,17 @@ describe("Custom Fields", async () => {
     const customFields = response.data!.custom_fields;
     assert(customFields.length > 0, "Expected at least one custom field");
 
-    // Verify field_format values are present
     const formats = new Set<string>(customFields.map((cf) => cf.field_format));
     for (const expected of ["string", "text", "int", "float", "date", "bool", "link", "list"]) {
       assert(formats.has(expected), `Expected field_format '${expected}' in custom fields`);
     }
 
-    // Verify IssueCustomField has trackers and roles
     const issueCf = customFields.find(
       (cf) => cf.customized_type === "issue" && cf.trackers !== undefined
     );
     assert(issueCf, "Expected at least one issue custom field with trackers");
     assert(Array.isArray(issueCf!.trackers), "trackers should be an array");
     assert(Array.isArray(issueCf!.roles), "roles should be an array");
-
-    // Verify list field has possible_values
     const listCf = customFields.find(
       (cf) => cf.field_format === "list" && cf.possible_values !== undefined
     );
@@ -41,29 +43,25 @@ describe("Custom Fields", async () => {
       "possible_values should not be empty"
     );
 
-    // Verify multiple field exists
     const multiCf = customFields.find((cf) => cf.multiple === true);
     assert(multiCf, "Expected at least one multiple custom field");
 
-    // Verify non-issue custom fields do NOT have trackers/roles
     const projectCf = customFields.find(
       (cf) => cf.customized_type === "project"
     );
-    if (projectCf) {
-      assert.strictEqual(
-        projectCf.trackers,
-        undefined,
-        "Project custom field should not have trackers"
-      );
-      assert.strictEqual(
-        projectCf.roles,
-        undefined,
-        "Project custom field should not have roles"
-      );
-    }
+    assert(projectCf, "Expected the seeded project custom field");
+    assert.strictEqual(
+      projectCf!.trackers,
+      undefined,
+      "Project custom field should not have trackers"
+    );
+    assert.strictEqual(
+      projectCf!.roles,
+      undefined,
+      "Project custom field should not have roles"
+    );
   });
 
-  // Test custom fields in issues (various types)
   describe("Issue custom fields", async () => {
     let projectId: number;
     let versionId: number;
@@ -71,7 +69,6 @@ describe("Custom Fields", async () => {
     let cfIds: Record<string, number>;
 
     before(async () => {
-      // Create project
       const projectName = `cf-test-${Date.now()}`;
       const projectRes = await client.POST("/projects.{format}", {
         params: { path: { format: "json" } },
@@ -86,24 +83,21 @@ describe("Custom Fields", async () => {
       assertStatus(201, projectRes);
       projectId = projectRes.data!.project.id;
 
-      // Get first role ID
-      const rolesRes = await client.GET("/roles.{format}", {
-        params: { path: { format: "json" } },
-      });
-      assertStatus(200, rolesRes);
-      const roleId = rolesRes.data!.roles[0].id;
-
-      // Add admin user as project member (needed for user custom field)
+      // The user custom field's possible values are the project's members
       const memberRes = await client.POST(
         "/projects/{project_id}/memberships.{format}",
         {
           params: { path: { format: "json", project_id: projectId } },
-          body: { membership: { user_id: 1, role_ids: [roleId] } },
+          body: {
+            membership: {
+              user_id: await currentUserId(),
+              role_ids: [await someRoleId()],
+            },
+          },
         }
       );
       assertStatus(201, memberRes);
 
-      // Create version for version custom field
       const versionRes = await client.POST(
         "/projects/{project_id}/versions.{format}",
         {
@@ -114,7 +108,6 @@ describe("Custom Fields", async () => {
       assertStatus(201, versionRes);
       versionId = versionRes.data!.version.id;
 
-      // Get custom field IDs by name
       const cfRes = await client.GET("/custom_fields.{format}", {
         params: { path: { format: "json" } },
       });
@@ -126,9 +119,11 @@ describe("Custom Fields", async () => {
     });
 
     after(async () => {
-      await client.DELETE("/projects/{project_id}.{format}", {
+      if (!projectId) return;
+      const response = await client.DELETE("/projects/{project_id}.{format}", {
         params: { path: { format: "json", project_id: projectId } },
       });
+      assertStatus(204, response);
     });
 
     test("POST /issues.json with various custom field types (custom_fields format)", async () => {
@@ -137,7 +132,7 @@ describe("Custom Fields", async () => {
         body: {
           issue: {
             project_id: projectId,
-            tracker_id: 1,
+            tracker_id: await someTrackerId(),
             subject: "CF test - custom_fields format",
             custom_fields: [
               { id: cfIds["CF String"], value: "hello" },
@@ -149,7 +144,7 @@ describe("Custom Fields", async () => {
               { id: cfIds["CF Link"], value: "https://example.com" },
               { id: cfIds["CF List"], value: "Alpha" },
               { id: cfIds["CF List Multi"], value: ["Red", "Blue"] },
-              { id: cfIds["CF User"], value: "1" },
+              { id: cfIds["CF User"], value: String(await currentUserId()) },
               { id: cfIds["CF Version"], value: String(versionId) },
             ],
           },
@@ -158,13 +153,11 @@ describe("Custom Fields", async () => {
       assertStatus(201, response);
       issueId = response.data!.issue.id;
 
-      // Verify custom fields in the response
       const cfs = response.data!.issue.custom_fields!;
       assert(cfs.length > 0, "Expected custom fields in response");
 
       const findCf = (name: string) => cfs.find((cf) => cf.name === name);
 
-      // Single value fields return string
       assert.strictEqual(findCf("CF String")?.value, "hello");
       assert.strictEqual(findCf("CF Text")?.value, "multi\nline\ntext");
       assert.strictEqual(findCf("CF Int")?.value, "42");
@@ -174,17 +167,15 @@ describe("Custom Fields", async () => {
       assert.strictEqual(findCf("CF Link")?.value, "https://example.com");
       assert.strictEqual(findCf("CF List")?.value, "Alpha");
 
-      // Multi-value field returns array
       const multiCf = findCf("CF List Multi");
       assert(multiCf, "Expected CF List Multi in response");
       assert.strictEqual(multiCf!.multiple, true);
       assert(Array.isArray(multiCf!.value), "Multi-value field should return array");
-      const multiValue = multiCf!.value as string[];
+      const multiValue = multiCf!.value;
       assert(multiValue.includes("Red"), "Expected 'Red' in multi-value");
       assert(multiValue.includes("Blue"), "Expected 'Blue' in multi-value");
 
-      // User and version fields return ID as string
-      assert.strictEqual(findCf("CF User")?.value, "1");
+      assert.strictEqual(findCf("CF User")?.value, String(await currentUserId()));
       assert.strictEqual(findCf("CF Version")?.value, String(versionId));
     });
 
@@ -200,7 +191,6 @@ describe("Custom Fields", async () => {
       const findCf = (name: string) => cfs.find((cf) => cf.name === name);
       assert.strictEqual(findCf("CF String")?.value, "hello");
 
-      // Multi-value field should have multiple attribute and array value
       const multiCf = findCf("CF List Multi");
       assert.strictEqual(multiCf!.multiple, true);
       assert(Array.isArray(multiCf!.value), "Multi-value should be array");
@@ -222,7 +212,6 @@ describe("Custom Fields", async () => {
       });
       assertStatus(204, response);
 
-      // Verify updated values
       const getRes = await client.GET("/issues/{issue_id}.{format}", {
         params: { path: { format: "json", issue_id: issueId } },
       });
@@ -245,7 +234,7 @@ describe("Custom Fields", async () => {
         body: {
           issue: {
             project_id: projectId,
-            tracker_id: 1,
+            tracker_id: await someTrackerId(),
             subject: "CF test - null values",
             custom_fields: [
               { id: cfIds["CF String"], value: null },
@@ -259,31 +248,27 @@ describe("Custom Fields", async () => {
       const cfs = response.data!.issue.custom_fields!;
       const findCf = (name: string) => cfs.find((cf) => cf.name === name);
 
-      // Null value should return null or empty string
       const strCf = findCf("CF String");
       assert(
         strCf!.value === null || strCf!.value === "",
         `Expected null or empty string, got: ${strCf!.value}`
       );
 
-      // Empty multi-value should return empty array
       const multiCf = findCf("CF List Multi");
       assert(Array.isArray(multiCf!.value), "Multi-value should be array");
       assert.strictEqual(
-        (multiCf!.value as string[]).length,
+        multiCf!.value.length,
         0,
         "Expected empty array"
       );
     });
   });
 
-  // Test custom fields in projects
   describe("Project custom fields", async () => {
     let projectId: number;
     let cfId: number;
 
     before(async () => {
-      // Find CF Project String ID
       const cfRes = await client.GET("/custom_fields.{format}", {
         params: { path: { format: "json" } },
       });
@@ -297,9 +282,10 @@ describe("Custom Fields", async () => {
 
     after(async () => {
       if (projectId) {
-        await client.DELETE("/projects/{project_id}.{format}", {
+        const response = await client.DELETE("/projects/{project_id}.{format}", {
           params: { path: { format: "json", project_id: projectId } },
         });
+        assertStatus(204, response);
       }
     });
 
@@ -337,7 +323,6 @@ describe("Custom Fields", async () => {
     });
   });
 
-  // Test custom fields in time entries
   describe("Time entry custom fields", async () => {
     let projectId: number;
     let issueId: number;
@@ -346,7 +331,6 @@ describe("Custom Fields", async () => {
     let cfId: number;
 
     before(async () => {
-      // Find CF TimeEntry String ID
       const cfRes = await client.GET("/custom_fields.{format}", {
         params: { path: { format: "json" } },
       });
@@ -357,7 +341,6 @@ describe("Custom Fields", async () => {
       assert(cf, "Expected CF TimeEntry String custom field");
       cfId = cf!.id;
 
-      // Create project and issue
       const projectName = `cf-time-${Date.now()}`;
       const projectRes = await client.POST("/projects.{format}", {
         params: { path: { format: "json" } },
@@ -375,7 +358,11 @@ describe("Custom Fields", async () => {
       const issueRes = await client.POST("/issues.{format}", {
         params: { path: { format: "json" } },
         body: {
-          issue: { project_id: projectId, tracker_id: 1, subject: "time-cf-test" },
+          issue: {
+            project_id: projectId,
+            tracker_id: await someTrackerId(),
+            subject: "time-cf-test",
+          },
         },
       });
       assertStatus(201, issueRes);
@@ -390,9 +377,11 @@ describe("Custom Fields", async () => {
     });
 
     after(async () => {
-      await client.DELETE("/projects/{project_id}.{format}", {
+      if (!projectId) return;
+      const response = await client.DELETE("/projects/{project_id}.{format}", {
         params: { path: { format: "json", project_id: projectId } },
       });
+      assertStatus(204, response);
     });
 
     test("POST /time_entries.json with custom_fields", async () => {

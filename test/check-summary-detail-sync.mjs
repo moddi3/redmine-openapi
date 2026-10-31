@@ -1,20 +1,16 @@
-// Verifies that each *.summary.yaml schema stays in sync with its detail
-// counterpart (*.yaml): every field of the summary schema must exist in the
-// detail schema with an identical definition. The two files are intentionally
-// duplicated because additionalProperties:false cannot be composed with
-// allOf in OpenAPI 3.0; the check guards against one-sided edits.
-// (required lists may differ deliberately: rendering conditions differ
-// between index and show endpoints.)
+// Closing a summary schema with additionalProperties:false prevents extending
+// it with allOf in OpenAPI 3.0, so summary/detail properties are duplicated.
+// required lists may differ because index and show rendering conditions differ.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import yaml from "js-yaml";
+import { load } from "js-yaml";
 
 const schemaDir = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
   "../src/components/schemas"
 );
-const load = (f) => yaml.load(fs.readFileSync(f, "utf8"));
+const loadSchema = (f) => load(fs.readFileSync(f, "utf8"));
 
 let failures = 0;
 for (const file of fs.readdirSync(schemaDir).filter((f) => f.endsWith(".summary.yaml"))) {
@@ -22,8 +18,8 @@ for (const file of fs.readdirSync(schemaDir).filter((f) => f.endsWith(".summary.
   const detailPath = path.join(schemaDir, detailFile);
   if (!fs.existsSync(detailPath)) continue;
 
-  const summary = load(path.join(schemaDir, file));
-  const detail = load(detailPath);
+  const summary = loadSchema(path.join(schemaDir, file));
+  const detail = loadSchema(detailPath);
   for (const [key, def] of Object.entries(summary.properties ?? {})) {
     const detailDef = (detail.properties ?? {})[key];
     if (detailDef === undefined) {
